@@ -1,0 +1,6 @@
+[submodule "Lr1"]
+	path = Lr1
+	url = https://github.com/slavikovics/AOISLaboratoryWork1.git
+[submodule "Lr2"]
+	path = Lr2
+	url = https://github.com/slavikovics/LogicalParser.git
