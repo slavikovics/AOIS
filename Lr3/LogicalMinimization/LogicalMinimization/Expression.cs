@@ -43,9 +43,9 @@ public class Expression
 
         foreach (var variable in Variables)
         {
-            result += Variables.ToString() + "";
+            result += variable.ToString() + " ";
         }
 
-        return result;
+        return result.Trim();
     }
 }
