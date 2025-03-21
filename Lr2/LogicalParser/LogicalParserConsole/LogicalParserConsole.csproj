@@ -11,4 +11,10 @@
       <ProjectReference Include="..\LogicalParser\LogicalParser.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="AOISLaboratoryWork1">
+        <HintPath>..\..\..\Lr1\AOISLaboratoryWork1\AOISLaboratoryWork1\obj\Debug\net9.0\AOISLaboratoryWork1.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>

@@ -1,4 +1,5 @@
-﻿using LogicalParser;
+﻿using AOISLaboratoryWork1;
+using LogicalParser;
 
 namespace LogicalParserConsole;
 
@@ -19,7 +20,7 @@ class Program
             Console.WriteLine($"Disjunction digital form: {table.DigitalDisjunctiveForm}");
             Console.WriteLine($"Conjunctive form: {table.ConjunctiveForm}");
             Console.WriteLine($"Conjunction digital form: {table.DigitalConjunctiveForm}");
-            Console.WriteLine($"Index form: {table.IndexForm}");
+            Console.WriteLine($"Index form: {table.IndexForm} ({Binary.ConvertBinaryToInteger(table.IndexForm)})");
             Console.WriteLine("");
         }
         
