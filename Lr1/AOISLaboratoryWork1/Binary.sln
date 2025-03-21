@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AOISLaboratoryWork1", "AOISLaboratoryWork1\AOISLaboratoryWork1.csproj", "{9BC7C60D-E03E-4A13-953A-05E3B3481B8B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Binary", "Binary\Binary.csproj", "{9BC7C60D-E03E-4A13-953A-05E3B3481B8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AOISLaboratoryWork1Tests", "AOISLaboratoryWork1Tests\AOISLaboratoryWork1Tests.csproj", "{E92E1C07-0D2B-4A81-BEC5-F74D3F81344E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinaryTests", "BinaryTests\BinaryTests.csproj", "{E92E1C07-0D2B-4A81-BEC5-F74D3F81344E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AOISLaboratoryWork1Console", "AOISLaboratoryWork1Console\AOISLaboratoryWork1Console.csproj", "{B358500B-84BF-455B-9D6E-5E34A1118971}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinaryConsole", "BinaryConsole\BinaryConsole.csproj", "{B358500B-84BF-455B-9D6E-5E34A1118971}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
