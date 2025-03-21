@@ -31,4 +31,10 @@ public class Variable
     {
         return new Variable(Name, IsPositive);
     }
+
+    public override string ToString()
+    {
+        if (IsPositive) return Name;
+        return "!" + Name;
+    }
 }

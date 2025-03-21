@@ -5,6 +5,7 @@
         <LangVersion>latest</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>LogicalMinimizationsTests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,6 +15,10 @@
 
     <ItemGroup>
         <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\LogicalMinimization\LogicalMinimization.csproj" />
     </ItemGroup>
 
 </Project>

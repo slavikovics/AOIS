@@ -36,4 +36,16 @@ public class Expression
 
         return new Expression(newVariables);
     }
+
+    public override string ToString()
+    {
+        string result = "";
+
+        foreach (var variable in Variables)
+        {
+            result += Variables.ToString() + "";
+        }
+
+        return result;
+    }
 }

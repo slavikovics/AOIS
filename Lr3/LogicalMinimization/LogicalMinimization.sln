@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicalMinimization", "LogicalMinimization\LogicalMinimization.csproj", "{CE651DCF-6ABD-4B56-820B-F33CD8A36002}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicalMinimizationsTests", "LogicalMinimizationsTests\LogicalMinimizationsTests.csproj", "{56B75EA3-6D4A-4212-B872-A3F211C5DE98}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicalMinimizationTests", "LogicalMinimizationTests\LogicalMinimizationTests.csproj", "{56B75EA3-6D4A-4212-B872-A3F211C5DE98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
