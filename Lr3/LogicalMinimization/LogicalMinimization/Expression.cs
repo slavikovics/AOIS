@@ -43,7 +43,7 @@ public class Expression
 
         foreach (var variable in Variables)
         {
-            result += variable.ToString() + " ";
+            result += variable.ToString() + "";
         }
 
         return result.Trim();

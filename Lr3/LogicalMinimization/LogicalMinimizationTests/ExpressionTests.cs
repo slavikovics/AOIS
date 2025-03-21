@@ -20,7 +20,7 @@ public sealed class ExpressionTests
         Expression expression2 = new Expression(variables2);
 
         Expression expressionRes = expression1.StickTogether(expression2);
-        Assert.AreEqual(expressionRes.ToString(), "a c");
+        Assert.AreEqual(expressionRes.ToString(), "ac");
     }
     
     [TestMethod]
@@ -38,7 +38,7 @@ public sealed class ExpressionTests
         Expression expression2 = new Expression(variables2);
 
         Expression expressionRes = expression1.StickTogether(expression2);
-        Assert.AreEqual(expressionRes.ToString(), "!a !b");
+        Assert.AreEqual(expressionRes.ToString(), "!a!b");
     }
     
     [TestMethod]
