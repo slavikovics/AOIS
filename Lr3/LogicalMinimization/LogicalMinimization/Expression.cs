@@ -40,12 +40,19 @@ public class Expression
     public override string ToString()
     {
         string result = "";
-
-        foreach (var variable in Variables)
-        {
-            result += variable.ToString() + "";
-        }
+        foreach (var variable in Variables) result += variable + "";
 
         return result.Trim();
+    }
+
+    public string ToString(FormType formType)
+    {
+        string result = "";
+        string sign = "&";
+        if (formType == FormType.Conjunctive) sign = "|";
+
+        foreach (var variable in Variables) result += variable + sign;
+        
+        return $"({result.Trim()})";
     }
 }

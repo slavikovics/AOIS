@@ -25,7 +25,7 @@
         <CollectCoverage>true</CollectCoverage>
         <CoverletOutput>./TestResults/Coverage/</CoverletOutput>
         <CoverletOutputFormat>cobertura</CoverletOutputFormat>     
-        <Include>[AOISLaboratoryWork1]*</Include>
+        <Include>[Binary]*</Include>
     </PropertyGroup>
     
     <Target Name="GenerateHtmlCoverageReport" AfterTargets="GenerateCoverageResultAfterTest">

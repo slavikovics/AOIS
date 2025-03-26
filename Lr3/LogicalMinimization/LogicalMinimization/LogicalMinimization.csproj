@@ -6,4 +6,10 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Reference Include="LogicalParser">
+        <HintPath>..\..\..\Lr2\LogicalParser\LogicalParser\obj\Debug\net9.0\LogicalParser.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>
