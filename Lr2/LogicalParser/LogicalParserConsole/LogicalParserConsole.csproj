@@ -12,8 +12,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="AOISLaboratoryWork1">
-        <HintPath>..\..\..\Lr1\AOISLaboratoryWork1\Binary\obj\Debug\net9.0\AOISLaboratoryWork1.dll</HintPath>
+      <Reference Include="Binary">
+        <HintPath>..\..\..\Lr1\AOISLaboratoryWork1\Binary\obj\Debug\net9.0\Binary.dll</HintPath>
       </Reference>
     </ItemGroup>
 

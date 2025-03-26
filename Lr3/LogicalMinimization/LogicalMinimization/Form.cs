@@ -1,4 +1,6 @@
-﻿namespace LogicalMinimization;
+﻿using LogicalParser;
+
+namespace LogicalMinimization;
 
 public class Form
 {
@@ -19,10 +21,53 @@ public class Form
         do changed = Stick();
         while (changed);
     }
+    
+    private static Dictionary<string, bool> MergeDictionaries(Dictionary<string, bool> dict1, Dictionary<string, bool> dict2)
+    {
+        var result = new Dictionary<string, bool>();
+
+        foreach (var key in dict1.Keys) result[key] = true;
+        
+        foreach (var key in dict2.Keys) result.TryAdd(key, false);
+        
+        return result;
+    }
+
+
+    public void RemoveUnnecessary()
+    {
+        List<Expression> toRemove = new List<Expression>();
+
+        foreach (var expression in Expressions)
+        {
+            List<Dictionary<string, bool>> optionsExpression = 
+                OptionsBuilder.BuildOptions(FormulaParser.FindAllPropositionalVariables(expression.ToString()));
+            
+            List<Dictionary<string, bool>> optionsFormula = 
+                OptionsBuilder.BuildOptions(FormulaParser.FindAllPropositionalVariables(ToString()));
+            
+            Dictionary<string, bool> options = MergeDictionaries(optionsExpression[0], optionsFormula[0]);
+                
+            List<Expression> remainingExpressions = [];
+            foreach (Expression e in Expressions) if (e != expression) remainingExpressions.Add(e);
+            
+            string form = new Form(remainingExpressions, Type).ToString();
+            IEvaluatable formula = FormulaParser.Parse(form.ToString());
+            
+            bool result = formula.Evaluate(options);
+            if (result) toRemove.Add(expression);
+        }
+        
+        foreach (var expression in toRemove) Expressions.Remove(expression);
+    }
 
     public bool IsNecessary(Expression expression)
     {
-        return true;
+        var allVariables = FormulaParser.FindAllPropositionalVariables(ToString());
+        var variables = FormulaParser.FindAllPropositionalVariables(expression.ToString());
+        
+        foreach (var variable in allVariables) if (!variables.Contains(variable)) return true;
+        return false;
     }
 
     public bool Stick()

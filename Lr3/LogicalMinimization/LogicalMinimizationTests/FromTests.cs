@@ -110,6 +110,19 @@ public sealed class FromTests
 
         form.StickEverything();
         var value = form.ToString();
-        Assert.AreEqual(value, "(a)|(b&c)");
+        Assert.AreEqual(value, "a|(b&c)");
+        
+        List<Variable> variables6 = [new Variable("a", true), 
+            new Variable("c", true)];
+        Expression expression6 = new Expression(variables6);
+        
+        form.Expressions.Add(expression6);
+        
+        value = form.ToString();
+        Assert.AreEqual(value, "a|(b&c)|(a&c)");
+        form.RemoveUnnecessary();
+        
+        value = form.ToString();
+        Assert.AreEqual(value, "a|(b&c)");
     }
 }
