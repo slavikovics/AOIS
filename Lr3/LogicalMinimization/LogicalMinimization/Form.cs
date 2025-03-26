@@ -68,13 +68,10 @@ public class Form
     public override string ToString()
     {
         string result = "";
+        string sign = "|";
+        if (Type == FormType.Conjunctive) sign = "&";
         
-        for (int i = 0; i < Expressions.Count - 1; i++)
-        {
-            result += Expressions[i].ToString(Type);
-            if (Type == FormType.Conjunctive) result += "&";
-            else result += "|";
-        }
+        for (int i = 0; i < Expressions.Count - 1; i++) result += Expressions[i].ToString(Type) + sign;
         result += Expressions[^1].ToString(Type);
 
         return result;
