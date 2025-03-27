@@ -3,7 +3,7 @@
 namespace LogicalMinimizationTests;
 
 [TestClass]
-public sealed class FromTests
+public sealed class FormTests
 {
     [TestMethod]
     public void StickTest()
