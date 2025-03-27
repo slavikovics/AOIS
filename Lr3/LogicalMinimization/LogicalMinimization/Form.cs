@@ -32,8 +32,7 @@ public class Form
         
         return result;
     }
-
-
+    
     public void RemoveUnnecessary()
     {
         List<Expression> toRemove = new List<Expression>();
@@ -59,15 +58,6 @@ public class Form
         }
         
         foreach (var expression in toRemove) Expressions.Remove(expression);
-    }
-
-    public bool IsNecessary(Expression expression)
-    {
-        var allVariables = FormulaParser.FindAllPropositionalVariables(ToString());
-        var variables = FormulaParser.FindAllPropositionalVariables(expression.ToString());
-        
-        foreach (var variable in allVariables) if (!variables.Contains(variable)) return true;
-        return false;
     }
 
     public bool Stick()
