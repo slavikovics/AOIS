@@ -2,7 +2,7 @@
 
 public class Expression
 {
-    private List<Variable> Variables { get; }
+    public List<Variable> Variables { get; }
 
     private int Length => Variables.Count;
 
