@@ -31,7 +31,7 @@ public class CarnoCard
         int row = variables.Count - column;
 
         ColumnVariables = variables.GetRange(0, column);
-        RowVariables = variables.GetRange(column + 1, row);
+        RowVariables = variables.GetRange(column, row);
     }
 
     public static CarnoSelection FindSelection(bool[,] table, int height, int width, int x, int y)
@@ -45,16 +45,16 @@ public class CarnoCard
             foreach (var selection in currentGen)
             {
                 var nearRight = selection.Right();
-                if (nearRight.IsValid(table)) nextGen.Add(nearRight);
-            
+                if (nearRight is not null && nearRight.IsValid(table)) nextGen.Add(nearRight);
+
                 var nearLeft = selection.Left();
-                if (nearLeft.IsValid(table)) nextGen.Add(nearLeft);
-            
+                if (nearLeft is not null && nearLeft.IsValid(table)) nextGen.Add(nearLeft);
+                
                 var nearUp = selection.Up();
-                if (nearUp.IsValid(table)) nextGen.Add(nearUp);
-            
+                if (nearUp is not null && nearUp.IsValid(table)) nextGen.Add(nearUp);
+                
                 var nearDown = selection.Down();
-                if (nearDown.IsValid(table)) nextGen.Add(nearDown);
+                if (nearDown is not null && nearDown.IsValid(table)) nextGen.Add(nearDown);
             }
 
             if (nextGen.Count == 0)
@@ -100,7 +100,7 @@ public class CarnoCard
         
         for (int i = 0; i < RowVariables.Count; i++)
         {
-            if (columnArguments[i] == '1') match.Add(RowVariables[i], true);
+            if (rowArguments[i] == '1') match.Add(RowVariables[i], true);
             else match.Add(RowVariables[i], false);
         }
 
@@ -126,5 +126,22 @@ public class CarnoCard
         }
 
         return result;
+    }
+
+    public override string ToString()
+    {
+        string resp = "";
+
+        for (int i = 0; i < RowArguments.Count; i++)
+        {
+            for (int j = 0; j < ColumnArguments.Count; j++)
+            {
+                if (Table[i, j]) resp += "1";
+                else resp += "0";
+            }
+            resp += "\n";
+        }
+
+        return resp;
     }
 }
