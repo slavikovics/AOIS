@@ -41,43 +41,38 @@ public class CarnoSelection
 
     public CarnoSelection Right()
     {
-        // TODO check for repeating
-        return new CarnoSelection(BottomX + 1, TopY, Height, Width);
+        var right = new CarnoSelection(BottomX + 1, TopY, Height, Width);
+        if (right.BottomX >= TopX) throw new Exception("Intersection happens");
+        return right;
     }
     
     public CarnoSelection Left()
     {
-        // TODO check for repeating
-        return new CarnoSelection(TopX - Width, TopY, Height, Width);
+        var left = new CarnoSelection(TopX - Width, TopY, Height, Width);
+        if (left.TopX <= BottomX) throw new Exception("Intersection happens");
+        return left;
     }
     
     public CarnoSelection Up()
     {
-        // TODO check for repeating
-        return new CarnoSelection(TopX, TopY - Height, Height, Width);
+        var up = new CarnoSelection(TopX, TopY - Height, Height, Width);
+        if (up.TopY <= BottomY) throw new Exception("Intersection happens");
+        return up;
     }
     
     public CarnoSelection Down()
     {
-        // TODO check for repeating
-        return new CarnoSelection(TopX, BottomY - 1, Height, Width);
-    }
-
-    public static bool operator ==(CarnoSelection first, CarnoSelection second)
-    {
-        // TODO replace with table-driven static method
-        return first.Height == second.Height && first.Width == second.Width;
-    }
-    
-    public static bool operator !=(CarnoSelection first, CarnoSelection second)
-    {
-        // TODO replace with table-driven static method
-        return !(first.Height == second.Height && first.Width == second.Width);
+        var down = new CarnoSelection(TopX, BottomY - 1, Height, Width);
+        if (down.BottomY >= TopY) throw new Exception("Intersection happens");
+        return down;
     }
 
     public bool IsValid(bool[,] table)
     {
-        // TODO check table values
+        for (int i = TopX; i <= BottomX; i++)
+            for (int j = TopY; j <= BottomY; j++)
+                if (!table[j, i]) return false;
+        
         return true;
     }
 }

@@ -34,7 +34,7 @@ public class CarnoCard
         RowVariables = variables.GetRange(column + 1, row);
     }
 
-    public static void FindSelection(bool[,] table, int height, int width, int x, int y)
+    public static CarnoSelection FindSelection(bool[,] table, int height, int width, int x, int y)
     {
         var initial = new CarnoSelection(x, y, height, width);
         List<CarnoSelection> currentGen = [initial];
@@ -59,8 +59,10 @@ public class CarnoCard
 
             if (nextGen.Count == 0)
             {
-                // TODO return biggest selection
-                return;
+                var biggest = currentGen[0];
+                foreach (var selection in currentGen) 
+                    if (selection.Square > biggest.Square) biggest = selection;
+                return biggest;
             }
 
             currentGen.Clear();
