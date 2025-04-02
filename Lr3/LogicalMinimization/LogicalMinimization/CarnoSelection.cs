@@ -78,10 +78,43 @@ public class CarnoSelection
     {
         // TODO fix this method when Bottom is on the left and top is on the right
         // TODO fix check for overlapping (filling the same squares several times)
+
+        bool xOverlap = BottomX < TopX;
+        bool yOverlap = TopY < BottomY;
+        bool isValid = true;
+
+        if (xOverlap && !yOverlap)
+        {
+            isValid = isValid && IsZoneValid(table, TopX, TopY, TableWidth - 1, BottomY);
+            isValid = isValid && IsZoneValid(table, 0, TopY, BottomX, BottomY);
+            return isValid;
+        }
+
+        if (!xOverlap && yOverlap)
+        {
+            isValid = isValid && IsZoneValid(table, TopX, TopY, BottomX, TableHeight - 1);
+            isValid = isValid && IsZoneValid(table, TopX, 0, BottomX, BottomY);
+            return isValid;
+        }
         
-        for (int i = TopX; i <= BottomX; i++)
-            for (int j = TopY; j <= BottomY; j++)
-                if (!table[j, i]) return false;
+        if (xOverlap && yOverlap)
+        {
+            isValid = isValid && IsZoneValid(table, TopX, TopY, TableWidth - 1, TableHeight - 1);
+            isValid = isValid && IsZoneValid(table, 0, 0, BottomX, BottomY);
+            isValid = isValid && IsZoneValid(table, TopX, 0, TableWidth - 1, BottomY);
+            isValid = isValid && IsZoneValid(table, 0, TopY, BottomX, TableHeight - 1);
+            return isValid;
+        }
+
+        isValid = isValid && IsZoneValid(table, TopX, TopY, BottomX, BottomY);
+        return isValid;
+    }
+
+    public static bool IsZoneValid(bool[,] table, int zoneTopX, int zoneTopY, int zoneBottomX, int zoneBottomY)
+    {
+        for (int i = zoneTopX; i <= zoneBottomX; i++)
+        for (int j = zoneTopY; j <= zoneBottomY; j++)
+            if (!table[j, i]) return false;
         
         return true;
     }
