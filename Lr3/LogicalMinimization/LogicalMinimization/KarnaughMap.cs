@@ -27,11 +27,11 @@ public class KarnaughMap
 
     private void SplitVariables(List<string> variables)
     {
-        int column = variables.Count / 2;
-        int row = variables.Count - column;
+        int row = variables.Count / 2;
+        int column = variables.Count - row;
 
-        ColumnVariables = variables.GetRange(0, column);
-        RowVariables = variables.GetRange(column, row);
+        RowVariables = variables.GetRange(0, row);
+        ColumnVariables = variables.GetRange(row, column);
     }
 
     public static KarnaughSelection FindSelection(bool[,] table, int height, int width, int x, int y)

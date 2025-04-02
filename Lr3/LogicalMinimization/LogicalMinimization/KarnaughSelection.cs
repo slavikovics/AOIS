@@ -14,9 +14,9 @@ public class KarnaughSelection
 
     public int BottomY { get; private set; }
 
-    public int Width => Math.Abs(BottomX - TopX) + 1;
+    public int Width { get; private set; }
 
-    public int Height => Math.Abs(TopY - BottomY) + 1;
+    public int Height { get; private set; }
 
     public int Square => Width * Height;
 
@@ -28,6 +28,8 @@ public class KarnaughSelection
     {
         TableHeight = tableHeight;
         TableWidth = tableWidth;
+        Height = height;
+        Width = width;
         
         TopX = x;
         if (TopX < 0) TopX += tableWidth;
@@ -78,6 +80,8 @@ public class KarnaughSelection
     {
         // TODO fix this method when Bottom is on the left and top is on the right
         // TODO fix check for overlapping (filling the same squares several times)
+
+        if (Height > TableHeight || Width > TableWidth) return false;
 
         bool xOverlap = BottomX < TopX;
         bool yOverlap = BottomY < TopY;
