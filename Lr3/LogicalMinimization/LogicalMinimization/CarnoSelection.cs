@@ -80,7 +80,7 @@ public class CarnoSelection
         // TODO fix check for overlapping (filling the same squares several times)
 
         bool xOverlap = BottomX < TopX;
-        bool yOverlap = TopY < BottomY;
+        bool yOverlap = BottomY < TopY;
         bool isValid = true;
 
         if (xOverlap && !yOverlap)

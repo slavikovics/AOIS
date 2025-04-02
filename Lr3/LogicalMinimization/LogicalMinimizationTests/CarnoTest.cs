@@ -11,6 +11,10 @@ public sealed class CarnoTest
     {
         IEvaluatable formula = FormulaParser.Parse("(p&!q&r)|(p&q&!r)|(p&q&r)");
         CarnoCard carnoCard = new CarnoCard(formula);
-        var selection = CarnoCard.FindSelection(carnoCard.Table, carnoCard.RowArguments.Count, carnoCard.ColumnArguments.Count, 1, 1);
+        var selection = CarnoCard.FindSelection(carnoCard.Table, 
+            carnoCard.RowArguments.Count, carnoCard.ColumnArguments.Count, 1, 1);
+        Assert.AreEqual(selection.Square, 2);
+        
+        
     }
 }
