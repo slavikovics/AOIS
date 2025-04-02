@@ -76,7 +76,7 @@ public class KarnaughSelection
         return down;
     }
 
-    public bool IsValid(bool[,] table)
+    public bool IsValid(ref bool[,] table, bool clearZone = false)
     {
         // TODO fix this method when Bottom is on the left and top is on the right
         // TODO fix check for overlapping (filling the same squares several times)
@@ -89,36 +89,39 @@ public class KarnaughSelection
 
         if (xOverlap && !yOverlap)
         {
-            isValid = isValid && IsZoneValid(table, TopX, TopY, TableWidth - 1, BottomY);
-            isValid = isValid && IsZoneValid(table, 0, TopY, BottomX, BottomY);
+            isValid = isValid && IsZoneValid(ref table, TopX, TopY, TableWidth - 1, BottomY, clearZone);
+            isValid = isValid && IsZoneValid(ref table, 0, TopY, BottomX, BottomY, clearZone);
             return isValid;
         }
 
         if (!xOverlap && yOverlap)
         {
-            isValid = isValid && IsZoneValid(table, TopX, TopY, BottomX, TableHeight - 1);
-            isValid = isValid && IsZoneValid(table, TopX, 0, BottomX, BottomY);
+            isValid = isValid && IsZoneValid(ref table, TopX, TopY, BottomX, TableHeight - 1, clearZone);
+            isValid = isValid && IsZoneValid(ref table, TopX, 0, BottomX, BottomY, clearZone);
             return isValid;
         }
         
         if (xOverlap && yOverlap)
         {
-            isValid = isValid && IsZoneValid(table, TopX, TopY, TableWidth - 1, TableHeight - 1);
-            isValid = isValid && IsZoneValid(table, 0, 0, BottomX, BottomY);
-            isValid = isValid && IsZoneValid(table, TopX, 0, TableWidth - 1, BottomY);
-            isValid = isValid && IsZoneValid(table, 0, TopY, BottomX, TableHeight - 1);
+            isValid = isValid && IsZoneValid(ref table, TopX, TopY, TableWidth - 1, TableHeight - 1, clearZone);
+            isValid = isValid && IsZoneValid(ref table, 0, 0, BottomX, BottomY, clearZone);
+            isValid = isValid && IsZoneValid(ref table, TopX, 0, TableWidth - 1, BottomY, clearZone);
+            isValid = isValid && IsZoneValid(ref table, 0, TopY, BottomX, TableHeight - 1, clearZone);
             return isValid;
         }
 
-        isValid = isValid && IsZoneValid(table, TopX, TopY, BottomX, BottomY);
+        isValid = isValid && IsZoneValid(ref table, TopX, TopY, BottomX, BottomY, clearZone);
         return isValid;
     }
 
-    public static bool IsZoneValid(bool[,] table, int zoneTopX, int zoneTopY, int zoneBottomX, int zoneBottomY)
+    public static bool IsZoneValid(ref bool[,] table, int zoneTopX, int zoneTopY, int zoneBottomX, int zoneBottomY, bool clearZone = false)
     {
         for (int i = zoneTopX; i <= zoneBottomX; i++)
         for (int j = zoneTopY; j <= zoneBottomY; j++)
-            if (!table[j, i]) return false;
+        {
+            if (!table[j, i] && !clearZone) return false;
+            table[j, i] = !clearZone;
+        }
         
         return true;
     }

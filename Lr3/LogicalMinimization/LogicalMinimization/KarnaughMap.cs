@@ -34,6 +34,77 @@ public class KarnaughMap
         ColumnVariables = variables.GetRange(row, column);
     }
 
+    public List<KarnaughSelection> FindAllSelections()
+    {
+        bool[,] table = (bool[,]) Table.Clone();
+        List<KarnaughSelection> result = [];
+
+        for (int i = 0; i < ColumnArguments.Count; i++)
+        {
+            for (int j = 0; j < RowArguments.Count; j++)
+            {
+                if (table[j, i])
+                {
+                    KarnaughSelection selection = FindSelection(Table, RowArguments.Count, ColumnArguments.Count, i, j);
+                    selection.IsValid(ref table);
+                    result.Add(selection);
+                }
+            }
+        }
+
+        var combos = GetAllCombinations(result);
+        combos = combos.OrderBy(combo => combo.Count).ToList();
+
+        foreach (var combo in combos)
+        {
+            bool[,] check = (bool[,]) Table.Clone();
+            foreach (var selection in combo) selection.IsValid(ref check, true);
+            
+            if (IsTableFullFalse(check)) return combo;
+        }
+
+        return result;
+    }
+
+    public bool IsTableFullFalse(bool[,] table)
+    {
+        for (int i = 0; i < ColumnArguments.Count; i++)
+            for (int j = 0; j < RowArguments.Count; j++)
+                if (table[j, i]) return false;
+        
+        return true;
+    }
+    
+    public static List<List<KarnaughSelection>> GetAllCombinations(List<KarnaughSelection> inputList)
+    {
+        var result = new List<List<KarnaughSelection>>();
+        
+        for (int size = 1; size <= inputList.Count; size++)
+        {
+            result.AddRange(GetCombinations(inputList, size));
+        }
+
+        return result;
+    }
+
+    public static IEnumerable<List<KarnaughSelection>> GetCombinations(List<KarnaughSelection> list, int length)
+    {
+        if (length == 0)
+            return new List<List<KarnaughSelection>> { new List<KarnaughSelection>() };
+
+        if (!list.Any())
+            return new List<List<KarnaughSelection>>();
+
+        var firstElement = list[0];
+        var rest = list.Skip(1).ToList();
+
+        var combinationsWithoutFirst = GetCombinations(rest, length);
+        var combinationsWithFirst = GetCombinations(rest, length - 1)
+            .Select(combo => new List<KarnaughSelection>(combo) { firstElement });
+
+        return combinationsWithFirst.Concat(combinationsWithoutFirst);
+    }
+
     public static KarnaughSelection FindSelection(bool[,] table, int height, int width, int x, int y)
     {
         var initial = new KarnaughSelection(x, y, height, width);
@@ -45,16 +116,16 @@ public class KarnaughMap
             foreach (var selection in currentGen)
             {
                 var nearRight = selection.Right();
-                if (nearRight is not null && nearRight.IsValid(table)) nextGen.Add(nearRight);
+                if (nearRight is not null && nearRight.IsValid(ref table)) nextGen.Add(nearRight);
 
                 var nearLeft = selection.Left();
-                if (nearLeft is not null && nearLeft.IsValid(table)) nextGen.Add(nearLeft);
+                if (nearLeft is not null && nearLeft.IsValid(ref table)) nextGen.Add(nearLeft);
                 
                 var nearUp = selection.Up();
-                if (nearUp is not null && nearUp.IsValid(table)) nextGen.Add(nearUp);
+                if (nearUp is not null && nearUp.IsValid(ref table)) nextGen.Add(nearUp);
                 
                 var nearDown = selection.Down();
-                if (nearDown is not null && nearDown.IsValid(table)) nextGen.Add(nearDown);
+                if (nearDown is not null && nearDown.IsValid(ref table)) nextGen.Add(nearDown);
             }
 
             if (nextGen.Count == 0)
