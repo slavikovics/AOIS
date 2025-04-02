@@ -2,7 +2,7 @@
 
 namespace LogicalMinimization;
 
-public class CarnoSelection
+public class KarnaughSelection
 {
     // Top left corner
     public int TopX { get; private set; }
@@ -24,7 +24,7 @@ public class CarnoSelection
 
     public int TableWidth { get; private set; }
 
-    public CarnoSelection(int x, int y, int tableHeight, int tableWidth, int height = 1, int width = 1)
+    public KarnaughSelection(int x, int y, int tableHeight, int tableWidth, int height = 1, int width = 1)
     {
         TableHeight = tableHeight;
         TableWidth = tableWidth;
@@ -46,30 +46,30 @@ public class CarnoSelection
         else if (BottomY >= tableHeight) BottomY -= tableHeight;
     }
 
-    public CarnoSelection? Right()
+    public KarnaughSelection? Right()
     {
-        var right = new CarnoSelection(TopX, TopY, TableHeight, TableWidth, Height, Width * 2);
+        var right = new KarnaughSelection(TopX, TopY, TableHeight, TableWidth, Height, Width * 2);
         if (right.BottomX >= TopX && right.BottomX <= BottomX) return null;
         return right;
     }
     
-    public CarnoSelection? Left()
+    public KarnaughSelection? Left()
     {
-        var left = new CarnoSelection(TopX - Width, TopY, TableHeight, TableWidth, Height, Width * 2);
+        var left = new KarnaughSelection(TopX - Width, TopY, TableHeight, TableWidth, Height, Width * 2);
         if (left.TopX <= BottomX && left.TopX >= TopX) return null;
         return left;
     }
     
-    public CarnoSelection? Up()
+    public KarnaughSelection? Up()
     {
-        var up = new CarnoSelection(TopX, TopY - Height, TableHeight, TableWidth, Height * 2, Width);
+        var up = new KarnaughSelection(TopX, TopY - Height, TableHeight, TableWidth, Height * 2, Width);
         if (up.TopY <= BottomY && up.TopY >= TopY) return null;
         return up;
     }
     
-    public CarnoSelection? Down()
+    public KarnaughSelection? Down()
     {
-        var down = new CarnoSelection(TopX, TopY, TableHeight, TableWidth, Height * 2, Width);
+        var down = new KarnaughSelection(TopX, TopY, TableHeight, TableWidth, Height * 2, Width);
         if (down.BottomY >= TopY && down.BottomY <= BottomY) return null;
         return down;
     }

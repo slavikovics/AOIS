@@ -3,7 +3,7 @@ using LogicalParser;
 
 namespace LogicalMinimization;
 
-public class CarnoCard
+public class KarnaughMap
 {
     public List<string> ColumnVariables { get; private set; }
 
@@ -17,7 +17,7 @@ public class CarnoCard
 
     public IEvaluatable Formula { get; private set; }
 
-    public CarnoCard(IEvaluatable formula)
+    public KarnaughMap(IEvaluatable formula)
     {
         var variables = FormulaParser.FindAllPropositionalVariables(formula.ToString());
         Formula = formula;
@@ -34,11 +34,11 @@ public class CarnoCard
         RowVariables = variables.GetRange(column, row);
     }
 
-    public static CarnoSelection FindSelection(bool[,] table, int height, int width, int x, int y)
+    public static KarnaughSelection FindSelection(bool[,] table, int height, int width, int x, int y)
     {
-        var initial = new CarnoSelection(x, y, height, width);
-        List<CarnoSelection> currentGen = [initial];
-        List<CarnoSelection> nextGen = [];
+        var initial = new KarnaughSelection(x, y, height, width);
+        List<KarnaughSelection> currentGen = [initial];
+        List<KarnaughSelection> nextGen = [];
 
         do
         {
