@@ -41,9 +41,49 @@ public sealed class KarnaughTest
     [TestMethod]
     public void FindAllSelectionsTest()
     {
-        IEvaluatable formula2 = FormulaParser.Parse("(a&b)|((c->b)~d)");
-        KarnaughMap karnaughMap2 = new KarnaughMap(formula2);
-        var selections = karnaughMap2.FindAllSelections();
+        IEvaluatable formula = FormulaParser.Parse("(a&b)|((c->b)~d)");
+        KarnaughMap karnaughMap = new KarnaughMap(formula);
+        var selections = karnaughMap.FindAllSelections();
         Assert.AreEqual(selections.Count, 4);
+    }
+
+    [TestMethod]
+    public void MinimizeTest1()
+    {
+        IEvaluatable formula = FormulaParser.Parse("(a&b)|((c->b)~d)");
+        KarnaughMap karnaughMap = new KarnaughMap(formula);
+        var result = karnaughMap.Minimize();
+        var resp = result.ToString();
+        Assert.AreEqual(resp, "(!b&c&!d)|(b&d)|(!c&d)|(a&b)");
+    }
+    
+    [TestMethod]
+    public void MinimizeTest2()
+    {
+        IEvaluatable formula = FormulaParser.Parse("a|(b|c)");
+        KarnaughMap karnaughMap = new KarnaughMap(formula);
+        var result = karnaughMap.Minimize();
+        var resp = result.ToString();
+        Assert.AreEqual(resp, "b|c|a");
+    }
+    
+    [TestMethod]
+    public void MinimizeTest3()
+    {
+        IEvaluatable formula = FormulaParser.Parse("((a->b)|c)");
+        KarnaughMap karnaughMap = new KarnaughMap(formula);
+        var result = karnaughMap.Minimize();
+        var resp = result.ToString();
+        Assert.AreEqual(resp, "b|c|(!a)");
+    }
+    
+    [TestMethod]
+    public void MinimizeTest4()
+    {
+        IEvaluatable formula = FormulaParser.Parse("((a->b)|(a~c))");
+        KarnaughMap karnaughMap = new KarnaughMap(formula);
+        var result = karnaughMap.Minimize();
+        var resp = result.ToString();
+        Assert.AreEqual(resp, "b|c|(!a)");
     }
 }

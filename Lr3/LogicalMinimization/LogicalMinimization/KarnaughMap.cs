@@ -77,8 +77,49 @@ public class KarnaughMap
         foreach (var rectangle in mapRectangles) rectangle.Match = MatchTable[rectangle.Y, rectangle.X];
         return mapRectangles;
     }
-    
-    public Form BuildFormForSelection
+
+    public Expression BuildExpressionForSelection(KarnaughSelection selection)
+    {
+        var mapRectangles = FindMapRectanglesForSelection(selection);
+        var referenceMatch = mapRectangles[0].Match;
+        var remainingVariables = new List<string>();
+        remainingVariables.AddRange(RowVariables);
+        remainingVariables.AddRange(ColumnVariables);
+        
+        List<Dictionary<string, bool>> allMatches = [];
+        
+        for (int i = 1; i < mapRectangles.Count; i++) allMatches.Add(mapRectangles[i].Match);
+
+        foreach (var match in allMatches)
+        {
+            List<string> variablesToRemove = [];
+            
+            foreach (var variable in remainingVariables) 
+            {
+                if (match[variable] != referenceMatch[variable]) variablesToRemove.Add(variable);
+            }
+            
+            variablesToRemove.ForEach(x => remainingVariables.Remove(x));
+        }
+
+        List<Variable> resultVariables = [];
+        foreach (var variable in remainingVariables)
+        {
+            resultVariables.Add(new Variable(variable, referenceMatch[variable]));
+        }
+
+        return new Expression(resultVariables);
+    }
+
+    public Form Minimize()
+    {
+        var selections = FindAllSelections();
+        List<Expression> expressions = [];
+
+        foreach (var selection in selections) expressions.Add(BuildExpressionForSelection(selection));
+
+        return new Form(expressions, FormType.Disjunctive);
+    }
 
     public bool IsTableFullFalse(bool[,] table)
     {
