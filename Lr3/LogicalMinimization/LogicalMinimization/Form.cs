@@ -35,6 +35,7 @@ public class Form
     
     public void RemoveUnnecessary()
     {
+        if (Expressions.Count <= 1) return;
         List<Expression> toRemove = [];
 
         foreach (var expression in Expressions)
