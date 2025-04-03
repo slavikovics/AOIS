@@ -15,6 +15,8 @@ public class KarnaughMap
 
     public bool[,] Table { get; private set; }
 
+    public Dictionary<string, bool>[,] MatchTable { get; private set; }
+
     public IEvaluatable Formula { get; private set; }
 
     public KarnaughMap(IEvaluatable formula)
@@ -66,6 +68,18 @@ public class KarnaughMap
         return result;
     }
 
+    public List<MapRectangle> FindMapRectanglesForSelection(KarnaughSelection selection)
+    {
+        bool[,] table = (bool[,]) Table.Clone();
+        List<MapRectangle> mapRectangles = new List<MapRectangle>();
+        selection.IsValid(ref table, false, mapRectangles);
+
+        foreach (var rectangle in mapRectangles) rectangle.Match = MatchTable[rectangle.Y, rectangle.X];
+        return mapRectangles;
+    }
+    
+    public Form BuildFormForSelection
+
     public bool IsTableFullFalse(bool[,] table)
     {
         for (int i = 0; i < ColumnArguments.Count; i++)
@@ -78,7 +92,6 @@ public class KarnaughMap
     public static List<List<KarnaughSelection>> GetAllCombinations(List<KarnaughSelection> inputList)
     {
         var result = new List<List<KarnaughSelection>>();
-        
         for (int size = 1; size <= inputList.Count; size++)
         {
             result.AddRange(GetCombinations(inputList, size));
@@ -148,6 +161,7 @@ public class KarnaughMap
         ColumnArguments = GenerateGrayCode(ColumnVariables.Count);
         RowArguments = GenerateGrayCode(RowVariables.Count);
         Table = new bool[RowArguments.Count, ColumnArguments.Count];
+        MatchTable = new Dictionary<string, bool>[RowArguments.Count, ColumnArguments.Count];
 
         for (int i = 0; i < ColumnArguments.Count; i++)
         {
@@ -155,6 +169,7 @@ public class KarnaughMap
             {
                 var match = MatchVariablesWithArguments(ColumnArguments[i], RowArguments[j]);
                 Table[j, i] = Formula.Evaluate(match);
+                MatchTable[j, i] = match;
             }
         }
     }
