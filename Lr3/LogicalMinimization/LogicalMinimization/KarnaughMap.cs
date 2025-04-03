@@ -21,6 +21,17 @@ public class KarnaughMap
 
     public KarnaughMap(IEvaluatable formula)
     {
+        SetUp(formula);
+    }
+
+    public KarnaughMap(string input)
+    {
+        var formula = FormulaParser.Parse(input);
+        SetUp(formula);
+    }
+
+    private void SetUp(IEvaluatable formula)
+    {
         var variables = FormulaParser.FindAllPropositionalVariables(formula.ToString());
         Formula = formula;
         SplitVariables(variables);

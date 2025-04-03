@@ -14,15 +14,15 @@ public class CalculationTable
     
     public List<Expression> UnnecessaryExpressions { get; }
 
-    public CalculationTable(Form logicalForm, List<Expression> expressions)
+    public CalculationTable(Form logicalForm, List<Expression> startExpressions)
     {
         LogicalForm = logicalForm;
-        StartExpressions = expressions;
-        Width = expressions.Count;
+        StartExpressions = startExpressions;
+        Width = startExpressions.Count;
         Height = logicalForm.Expressions.Count;
         Crosses = new bool[Height, Width];
         CheckCrosses();
-        UnnecessaryExpressions = FindUnnecessaryExpressions();
+        UnnecessaryExpressions = RemoveUnnecessaryExpressions();
     }
 
     public static bool ShouldPlaceCross(Expression modified, Expression original)
@@ -79,7 +79,7 @@ public class CalculationTable
         return false;
     }
 
-    public List<Expression> FindUnnecessaryExpressions()
+    public List<Expression> RemoveUnnecessaryExpressions()
     {
         List<Expression> unnecessaryExpressions = [];
         

@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicalMinimization", "Logi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicalMinimizationTests", "LogicalMinimizationTests\LogicalMinimizationTests.csproj", "{56B75EA3-6D4A-4212-B872-A3F211C5DE98}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicalMinimizationConsole", "LogicalMinimizationConsole\LogicalMinimizationConsole.csproj", "{F1DFE1F1-D446-445D-9F92-51CE1CB162B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{56B75EA3-6D4A-4212-B872-A3F211C5DE98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56B75EA3-6D4A-4212-B872-A3F211C5DE98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56B75EA3-6D4A-4212-B872-A3F211C5DE98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1DFE1F1-D446-445D-9F92-51CE1CB162B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1DFE1F1-D446-445D-9F92-51CE1CB162B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1DFE1F1-D446-445D-9F92-51CE1CB162B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1DFE1F1-D446-445D-9F92-51CE1CB162B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -78,7 +78,7 @@ public sealed class FormTests
     }
 
     [TestMethod]
-    public void ToStringTests()
+    public void DisjunctionTests()
     {
         List<Variable> variables1 = [new Variable("a", false), 
             new Variable("b", true), 
@@ -124,5 +124,40 @@ public sealed class FormTests
         
         value = form.ToString();
         Assert.AreEqual(value, "a|(b&c)");
+    }
+
+    [TestMethod]
+    public void ConjunctionTest()
+    {
+        List<Variable> variables1 = [new Variable("a", true), 
+            new Variable("b", true), 
+            new Variable("c", true)];
+        Expression expression1 = new Expression(variables1);
+        
+        List<Variable> variables2 = [new Variable("a", true), 
+            new Variable("b", false), 
+            new Variable("c", true)];
+        Expression expression2 = new Expression(variables2);
+
+        List<Expression> expressions = [expression1, expression2];
+        Form form = new Form(expressions, FormType.Conjunctive);
+        
+        form.StickEverything();
+        var value = form.ToString();
+        Assert.AreEqual(value, "(a|c)");
+        
+        List<Variable> variables6 = [new Variable("a", true), 
+            new Variable("b", true),
+            new Variable("c", true)];
+        Expression expression6 = new Expression(variables6);
+        
+        form.Expressions.Add(expression6);
+        
+        value = form.ToString();
+        Assert.AreEqual(value, "(a|c)&(a|b|c)");
+        form.RemoveUnnecessary();
+        
+        value = form.ToString();
+        Assert.AreEqual(value, "(a|c)");
     }
 }

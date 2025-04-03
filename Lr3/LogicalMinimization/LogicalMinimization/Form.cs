@@ -22,20 +22,20 @@ public class Form
         while (changed);
     }
     
-    private static Dictionary<string, bool> MergeDictionaries(Dictionary<string, bool> dict1, Dictionary<string, bool> dict2)
+    private Dictionary<string, bool> MergeDictionaries(Dictionary<string, bool> dict1, Dictionary<string, bool> dict2)
     {
         var result = new Dictionary<string, bool>();
+        bool truth = Type != FormType.Conjunctive;
 
-        foreach (var key in dict1.Keys) result[key] = true;
-        
-        foreach (var key in dict2.Keys) result.TryAdd(key, false);
+        foreach (var key in dict1.Keys) result[key] = truth;
+        foreach (var key in dict2.Keys) result.TryAdd(key, !truth);
         
         return result;
     }
     
     public void RemoveUnnecessary()
     {
-        List<Expression> toRemove = new List<Expression>();
+        List<Expression> toRemove = [];
 
         foreach (var expression in Expressions)
         {
@@ -54,7 +54,7 @@ public class Form
             IEvaluatable formula = FormulaParser.Parse(form.ToString());
             
             bool result = formula.Evaluate(options);
-            if (result) toRemove.Add(expression);
+            if ((result && Type == FormType.Disjunctive) || (!result && Type == FormType.Conjunctive)) toRemove.Add(expression);
         }
         
         foreach (var expression in toRemove) Expressions.Remove(expression);
@@ -102,6 +102,8 @@ public class Form
 
     public override string ToString()
     {
+        if (Expressions.Count == 0) return "";
+        
         string result = "";
         string sign = "|";
         if (Type == FormType.Conjunctive) sign = "&";
