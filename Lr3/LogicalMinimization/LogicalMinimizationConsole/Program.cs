@@ -12,16 +12,16 @@ class Program
             string? formString = Console.ReadLine();
             if (formString is null) return;
 
-            //try
-            //{
+            try
+            {
                 CalcMethod(formString);
                 CalcTableMethod(formString);
                 KarnaughMethod(formString);
-            //}
-            //catch (Exception e)
-            //{
-                //Console.WriteLine("Something went wrong.");
-            //}
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Something went wrong.");
+            }
         
             Console.WriteLine();
         }

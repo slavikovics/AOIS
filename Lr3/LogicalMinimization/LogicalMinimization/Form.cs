@@ -27,8 +27,11 @@ public class Form
         var result = new Dictionary<string, bool>();
         bool truth = Type != FormType.Conjunctive;
 
-        foreach (var key in dict1.Keys) result[key] = truth;
-        foreach (var key in dict2.Keys) result.TryAdd(key, !truth);
+        if (truth) foreach (var key in dict1.Keys) result[key] = dict1[key];
+        else foreach (var key in dict1.Keys) result[key] = !dict1[key];
+        
+        if (truth) foreach (var key in dict2.Keys) result.TryAdd(key, dict2[key]);
+        else foreach (var key in dict2.Keys) result.TryAdd(key, !dict2[key]);
         
         return result;
     }
@@ -37,16 +40,19 @@ public class Form
     {
         if (Expressions.Count <= 1) return;
         List<Expression> toRemove = [];
+        
+        Dictionary<string, bool> optionFormula = [];
+        foreach (var expression in Expressions)
+        {
+            foreach (var variable in expression.Variables) optionFormula.TryAdd(variable.Name, !variable.IsPositive);
+        }
 
         foreach (var expression in Expressions)
         {
-            List<Dictionary<string, bool>> optionsExpression = 
-                OptionsBuilder.BuildOptions(FormulaParser.FindAllPropositionalVariables(expression.ToString()));
-            
-            List<Dictionary<string, bool>> optionsFormula = 
-                OptionsBuilder.BuildOptions(FormulaParser.FindAllPropositionalVariables(ToString()));
-            
-            Dictionary<string, bool> options = MergeDictionaries(optionsExpression[0], optionsFormula[0]);
+            Dictionary<string, bool> optionsExpression = [];
+            foreach (var variable in expression.Variables) optionsExpression.Add(variable.Name, variable.IsPositive);
+
+            Dictionary<string, bool> options = MergeDictionaries(optionsExpression, optionFormula);
                 
             List<Expression> remainingExpressions = [];
             foreach (Expression e in Expressions) if (e != expression) remainingExpressions.Add(e);
