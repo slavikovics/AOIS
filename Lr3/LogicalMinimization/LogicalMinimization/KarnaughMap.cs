@@ -137,6 +137,11 @@ public class KarnaughMap
         List<Expression> expressions = [];
         
         foreach (var selection in selections) expressions.Add(BuildExpressionForSelection(selection));
+        foreach (var expression in expressions)
+        {
+            foreach (var variable in expression.Variables) variable.IsPositive = !variable.IsPositive;
+        }
+        
         return new Form(expressions, FormType.Conjunctive);
     }
 

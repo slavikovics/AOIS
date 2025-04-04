@@ -60,6 +60,19 @@ class Program
         Console.WriteLine();
         Console.WriteLine("Karnaugh method:");
         KarnaughMap map = new KarnaughMap(formString);
+
+        string rowVariables = "";
+        map.RowVariables.ForEach(x => rowVariables += x);
+        List<string> rows = [rowVariables];
+        rows.AddRange(map.RowArguments);
+        
+        string columnVariables = "";
+        map.ColumnVariables.ForEach(x => columnVariables += x);
+        List<string> columns = [columnVariables];
+        columns.AddRange(map.ColumnArguments);
+        
+        //var table = new TableBuilder<string, string, bool>(rows, columns, map.Table);
+        
         var disjunctional = map.MinimizeToDisjunctional();
         Console.WriteLine($"Disjunctional after minimizing: {disjunctional.ToString()}");
         

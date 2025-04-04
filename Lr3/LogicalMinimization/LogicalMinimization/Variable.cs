@@ -2,9 +2,9 @@
 
 public class Variable
 {
-    private string Name { get; }
+    public string Name { get; set; }
     
-    private bool IsPositive { get; }
+    public bool IsPositive { get; set; }
 
     public Variable(string name, bool isPositive)
     {

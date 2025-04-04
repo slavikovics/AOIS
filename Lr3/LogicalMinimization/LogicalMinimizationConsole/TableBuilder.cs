@@ -1,6 +1,6 @@
 namespace LogicalMinimizationConsole;
 
-public class TableBuilder<T>
+public class TableBuilder<T1, T2, T3>
 {
     private List<string> _rowArguments;
     
@@ -14,7 +14,7 @@ public class TableBuilder<T>
     
     private int[] _sizesHorizontal;
     
-    public TableBuilder(List<T> rowArguments, List<T> columnArguments, T[,] content)
+    public TableBuilder(List<T1> rowArguments, List<T2> columnArguments, T3[,] content)
     {
         _rowArguments = [];
         _columnArguments = [];
@@ -24,7 +24,7 @@ public class TableBuilder<T>
         FindSizes();
     }
 
-    private void FillContent(T[,] content)
+    private void FillContent(T3[,] content)
     {
         for (int i = 0; i < _height - 1; i++)
         {
@@ -37,7 +37,7 @@ public class TableBuilder<T>
         }
     }
 
-    private void FillArguments(List<T> rowArguments, List<T> columnArguments)
+    private void FillArguments(List<T1> rowArguments, List<T2> columnArguments)
     {
         try
         {
@@ -58,7 +58,7 @@ public class TableBuilder<T>
     private void FindSizes()
     {
         for (int i = 0; i < _columnArguments.Count; i++)
-            _sizesHorizontal[i] = Math.Max(_columnArguments[i].Length, FindMaxRowSize(i));
+            _sizesHorizontal[i] = Math.Max(_columnArguments[i].Length, FindMaxRowSize(i)) + 2;
     }
 
     private int FindMaxRowSize(int i)
@@ -72,25 +72,51 @@ public class TableBuilder<T>
         return max;
     }
 
-    public string BuildHeader()
+    private string BuildHeader()
     {
         string result = " " + _rowArguments[0] + "\\" + _columnArguments[0] + " ";
-        for (int i = 1; i < _width; i++) result += $" {_columnArguments[i]} ";
+        int left = (_sizesHorizontal[0] - result.Length - 2) / 2;
+        int right = _sizesHorizontal[0] - left;
+        result = $"{new string(' ', left)}{result}{new string(' ', right)}";
+
+        for (int i = 1; i < _width; i++)
+        {
+            var part = $"{_columnArguments[i]}";
+            left = (_sizesHorizontal[i] - part.Length) / 2;
+            right = _sizesHorizontal[i] - left;
+            result += $"{new string(' ', left)}{part}{new string(' ', right)}";
+        }
         
         return result + "\n";
     }
 
-    public string BuildBody()
+    private string BuildBody()
     {
         string result = "";
-        
-        for (int i = 0; i < _height; i++)
-        
-        for (int j = 1; j < _width; j++)
+
+        for (int i = 1; i < _height; i++)
         {
+            var part = _rowArguments[i];
+            int left = (_sizesHorizontal[0] - part.Length - 2) / 2;
+            int right = _sizesHorizontal[0] - left;
+            result += $"{new string(' ', left)}{part}{new string(' ', right)}";
             
+            for (int j = 1; j < _width; j++)
+            {
+                part = _content[i - 1, j - 1];
+                left = (_sizesHorizontal[j] - part.Length - 2) / 2;
+                right = _sizesHorizontal[j] - left;
+                result += $"{new string(' ', left)}{part}{new string(' ', right)}";
+            }
+
+            result += "\n";
         }
         
         return result;
+    }
+
+    public string Build()
+    {
+        return BuildHeader() + BuildBody();
     }
 }
