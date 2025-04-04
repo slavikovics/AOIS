@@ -52,7 +52,7 @@ public sealed class KarnaughTest
     {
         IEvaluatable formula = FormulaParser.Parse("(a&b)|((c->b)~d)");
         KarnaughMap karnaughMap = new KarnaughMap(formula);
-        var result = karnaughMap.Minimize();
+        var result = karnaughMap.MinimizeToDisjunctional();
         var resp = result.ToString();
         Assert.AreEqual(resp, "(!b&c&!d)|(b&d)|(!c&d)|(a&b)");
     }
@@ -62,7 +62,7 @@ public sealed class KarnaughTest
     {
         IEvaluatable formula = FormulaParser.Parse("a|(b|c)");
         KarnaughMap karnaughMap = new KarnaughMap(formula);
-        var result = karnaughMap.Minimize();
+        var result = karnaughMap.MinimizeToDisjunctional();
         var resp = result.ToString();
         Assert.AreEqual(resp, "b|c|a");
     }
@@ -72,7 +72,7 @@ public sealed class KarnaughTest
     {
         IEvaluatable formula = FormulaParser.Parse("((a->b)|c)");
         KarnaughMap karnaughMap = new KarnaughMap(formula);
-        var result = karnaughMap.Minimize();
+        var result = karnaughMap.MinimizeToDisjunctional();
         var resp = result.ToString();
         Assert.AreEqual(resp, "b|c|(!a)");
     }
@@ -82,7 +82,7 @@ public sealed class KarnaughTest
     {
         IEvaluatable formula = FormulaParser.Parse("((a->b)|(a~c))");
         KarnaughMap karnaughMap = new KarnaughMap(formula);
-        var result = karnaughMap.Minimize();
+        var result = karnaughMap.MinimizeToDisjunctional();
         var resp = result.ToString();
         Assert.AreEqual(resp, "b|c|(!a)");
     }

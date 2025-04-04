@@ -29,6 +29,7 @@ class Program
 
     private static void CalcMethod(string formString)
     {
+        Console.WriteLine();
         Console.WriteLine("Calculation method:");
         Form form = FormParser.ParseForm(formString);
         form.StickEverything();
@@ -39,6 +40,7 @@ class Program
     
     private static void CalcTableMethod(string formString)
     {
+        Console.WriteLine();
         Console.WriteLine("Calculation + table method:");
         Form form = FormParser.ParseForm(formString);
         
@@ -55,9 +57,13 @@ class Program
     
     private static void KarnaughMethod(string formString)
     {
+        Console.WriteLine();
         Console.WriteLine("Karnaugh method:");
         KarnaughMap map = new KarnaughMap(formString);
-        var result = map.Minimize();
-        Console.WriteLine($"After minimizing: {result.ToString()}");
+        var disjunctional = map.MinimizeToDisjunctional();
+        Console.WriteLine($"Disjunctional after minimizing: {disjunctional.ToString()}");
+        
+        var conjunctional = map.MinimizeToConjunctional();
+        Console.WriteLine($"Conjunctional after minimizing: {conjunctional.ToString()}");
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using LogicalParser;
+﻿using LogicalParser;
 
 namespace LogicalMinimization;
 
@@ -122,14 +121,31 @@ public class KarnaughMap
         return new Expression(resultVariables);
     }
 
-    public Form Minimize()
+    public Form MinimizeToDisjunctional()
     {
         var selections = FindAllSelections();
         List<Expression> expressions = [];
 
         foreach (var selection in selections) expressions.Add(BuildExpressionForSelection(selection));
-
         return new Form(expressions, FormType.Disjunctive);
+    }
+
+    public Form MinimizeToConjunctional()
+    {
+        InvertTable();
+        var selections = FindAllSelections();
+        List<Expression> expressions = [];
+        
+        foreach (var selection in selections) expressions.Add(BuildExpressionForSelection(selection));
+        return new Form(expressions, FormType.Conjunctive);
+    }
+
+    private void InvertTable()
+    {
+        for (int i = 0; i < ColumnArguments.Count; i++)
+        for (int j = 0; j < RowArguments.Count; j++)
+            if (Table[j, i]) Table[j, i] = false;
+            else Table[j, i] = true;
     }
 
     public bool IsTableFullFalse(bool[,] table)
