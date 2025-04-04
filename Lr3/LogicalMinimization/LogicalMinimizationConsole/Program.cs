@@ -53,6 +53,15 @@ class Program
         CalculationTable calculationTable = new CalculationTable(form, startExpressions);
         calculationTable.RemoveUnnecessaryExpressions();
         Console.WriteLine($"After minimizing: {form.ToString()}");
+        
+        List<Expression> rows = [new Expression([])];
+        rows.AddRange(startExpressions);
+        
+        List<Expression> columns = [new Expression([])];
+        columns.AddRange(form.Expressions);
+
+        var table = new TableBuilder<Expression, Expression, bool>(rows, columns, calculationTable.FlipCrosses());
+        Console.WriteLine(table.Build());
     }
     
     private static void KarnaughMethod(string formString)

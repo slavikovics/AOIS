@@ -56,6 +56,21 @@ public class CalculationTable
             }
         }
     }
+    
+    public bool[,] FlipCrosses()
+    {
+        bool[,] flipped = new bool[Width, Height];
+        
+        for (int i = 0; i < Height; i++)
+        {
+            for (int j = 0; j < Width; j++)
+            {
+                flipped[j, i] = Crosses[i, j];
+            }
+        }
+
+        return flipped;
+    }
 
     private bool IsRowSubset(int first, int second)
     {
