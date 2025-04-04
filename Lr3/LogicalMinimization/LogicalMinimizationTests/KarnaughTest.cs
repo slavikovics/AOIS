@@ -1,7 +1,7 @@
 ﻿using LogicalMinimization;
 using LogicalParser;
 
-namespace LogicalMinimizationTests;
+namespace LogicalMinimizationsTests;
 
 [TestClass]
 public sealed class KarnaughTest
@@ -55,6 +55,10 @@ public sealed class KarnaughTest
         var result = karnaughMap.MinimizeToDisjunctional();
         var resp = result.ToString();
         Assert.AreEqual(resp, "(!b&c&!d)|(b&d)|(!c&d)|(a&b)");
+        
+        result = karnaughMap.MinimizeToConjunctional();
+        resp = result.ToString();
+        Assert.AreEqual(resp, "(b|!c|!d)&(a|!b|d)&(b|c|d)");
     }
     
     [TestMethod]
@@ -65,6 +69,10 @@ public sealed class KarnaughTest
         var result = karnaughMap.MinimizeToDisjunctional();
         var resp = result.ToString();
         Assert.AreEqual(resp, "b|c|a");
+        
+        result = karnaughMap.MinimizeToConjunctional();
+        resp = result.ToString();
+        Assert.AreEqual(resp, "(a|b|c)");
     }
     
     [TestMethod]
@@ -75,6 +83,10 @@ public sealed class KarnaughTest
         var result = karnaughMap.MinimizeToDisjunctional();
         var resp = result.ToString();
         Assert.AreEqual(resp, "b|c|(!a)");
+        
+        result = karnaughMap.MinimizeToConjunctional();
+        resp = result.ToString();
+        Assert.AreEqual(resp, "(!a|b|c)");
     }
     
     [TestMethod]
@@ -85,6 +97,10 @@ public sealed class KarnaughTest
         var result = karnaughMap.MinimizeToDisjunctional();
         var resp = result.ToString();
         Assert.AreEqual(resp, "b|c|(!a)");
+        
+        result = karnaughMap.MinimizeToConjunctional();
+        resp = result.ToString();
+        Assert.AreEqual(resp, "(!a|b|c)");
     }
 
     [TestMethod]
