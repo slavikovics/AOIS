@@ -4,12 +4,10 @@ namespace LogicalMinimization;
 
 public class KarnaughSelection
 {
-    // Top left corner
     public int TopX { get; private set; }
 
     public int TopY { get; private set; }
     
-    // Bottom right corner
     public int BottomX { get; private set; }
 
     public int BottomY { get; private set; }
@@ -78,9 +76,6 @@ public class KarnaughSelection
 
     public bool IsValid(ref bool[,] table, bool clearZone = false, List<MapRectangle>? rectangles = null)
     {
-        // TODO fix this method when Bottom is on the left and top is on the right
-        // TODO fix check for overlapping (filling the same squares several times)
-
         if (Height > TableHeight || Width > TableWidth) return false;
 
         bool xOverlap = BottomX < TopX;

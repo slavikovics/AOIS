@@ -9,9 +9,9 @@ public sealed class KarnaughSelectionTests
     public void IsSelectionValidTest()
     {
         bool[,] table = new bool[3, 3];
-        table[0, 0] = true; // 101 
-        table[2, 0] = true; // 000
-        table[2, 2] = true; // 101
+        table[0, 0] = true;
+        table[2, 0] = true;
+        table[2, 2] = true;
         table[0, 2] = true;
 
         KarnaughSelection karnaughSelection1 = new KarnaughSelection(2, 2, 3, 3, 2, 2);
@@ -37,9 +37,9 @@ public sealed class KarnaughSelectionTests
     public void RightTest()
     {
         bool[,] table = new bool[3, 3];
-        table[0, 0] = true; // 101 
-        table[2, 0] = true; // 000
-        table[2, 2] = true; // 101
+        table[0, 0] = true;
+        table[2, 0] = true;
+        table[2, 2] = true;
         table[0, 2] = true;
 
         KarnaughSelection karnaughSelection = new KarnaughSelection(0, 0, 3, 3);

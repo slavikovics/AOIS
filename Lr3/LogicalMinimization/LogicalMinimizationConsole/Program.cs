@@ -51,7 +51,6 @@ class Program
         Console.WriteLine($"After sticking: {form.ToString()}");
 
         CalculationTable calculationTable = new CalculationTable(form, startExpressions);
-        calculationTable.RemoveUnnecessaryExpressions();
         Console.WriteLine($"After minimizing: {form.ToString()}");
         
         List<Expression> rows = [new Expression([])];

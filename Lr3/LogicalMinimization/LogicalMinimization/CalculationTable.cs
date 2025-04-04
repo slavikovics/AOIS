@@ -1,3 +1,5 @@
+using System.Reflection.Metadata;
+
 namespace LogicalMinimization;
 
 public class CalculationTable
@@ -94,12 +96,69 @@ public class CalculationTable
         return false;
     }
 
-    public List<Expression> RemoveUnnecessaryExpressions()
+    private bool IsEnough(List<int> rowNumbers)
+    {
+        bool[] isEnough = new bool[Width];
+        for (int i = 0; i < Width; i++) isEnough[i] = false;
+        
+        foreach (var rowNumber in rowNumbers)
+        {
+            for (int i = 0; i < Width; i++)
+                if (Crosses[rowNumber, i])
+                    isEnough[i] = true;
+        }
+        
+        for (int i = 0; i < Width; i++) if (isEnough[i] == false) return false;
+        return true;
+    }
+
+    public List<List<int>> GenerateCombinations()
+    {
+        var result = new List<List<int>>();
+
+        for (int length = 1; length <= Height; length++)
+        {
+            GenerateCombinationsRecursive(result, new List<int>(), 0, length);
+        }
+
+        return result;
+    }
+
+    private void GenerateCombinationsRecursive(List<List<int>> result, List<int> current, int start, int length)
+    {
+        if (current.Count == length)
+        {
+            result.Add(new List<int>(current));
+            return;
+        }
+
+        for (int i = start; i < Height; i++)
+        {
+            current.Add(i);
+            GenerateCombinationsRecursive(result, current, i + 1, length);
+            current.RemoveAt(current.Count - 1);
+        }
+    }
+
+    private List<Expression> RemoveUnnecessaryExpressions()
     {
         List<Expression> unnecessaryExpressions = [];
-        
+        List<int> selectedCombo = [];
+
+        var combos = GenerateCombinations();
+        foreach (var combo in combos)
+        {
+            if (IsEnough(combo))
+            {
+                selectedCombo = combo;
+                break;
+            }
+        }
+
         for (int i = 0; i < Height; i++)
-            if (IsRowOdd(i)) unnecessaryExpressions.Add(LogicalForm.Expressions[i]);
+        {
+            if (!selectedCombo.Contains(i)) unnecessaryExpressions.Add(LogicalForm.Expressions[i]);
+        }
         
         foreach (var exp in unnecessaryExpressions)
             LogicalForm.Expressions.Remove(exp);
