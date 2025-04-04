@@ -64,26 +64,30 @@ public class TableBuilder<T1, T2, T3>
     private int FindMaxRowSize(int i)
     {
         int max = (_rowArguments[0] + "\\" + _columnArguments[0]).Length;
-        if (i == 0) foreach (var row in _rowArguments) if (row.Length > max) max = row.Length;
+        if (i == 0)
+        {
+            foreach (var row in _rowArguments) if (row.Length > max) max = row.Length;
+            return max;
+        }
 
         i -= 1;
-        max = _content[i, 0].Length;
-        for (int j = 1; j < _width - 1; j++) if (_content[i, j].Length > max) max = _content[i, j].Length;
+        max = _content[0, i].Length;
+        for (int j = 1; j < _height - 1; j++) if (_content[j, i].Length > max) max = _content[j, i].Length;
         return max;
     }
 
     private string BuildHeader()
     {
-        string result = " " + _rowArguments[0] + "\\" + _columnArguments[0] + " ";
-        int left = (_sizesHorizontal[0] - result.Length - 2) / 2;
-        int right = _sizesHorizontal[0] - left;
+        string result = _rowArguments[0] + "\\" + _columnArguments[0];
+        int left = (_sizesHorizontal[0] - result.Length) / 2;
+        int right = _sizesHorizontal[0] - result.Length  - left;
         result = $"{new string(' ', left)}{result}{new string(' ', right)}";
 
         for (int i = 1; i < _width; i++)
         {
             var part = $"{_columnArguments[i]}";
             left = (_sizesHorizontal[i] - part.Length) / 2;
-            right = _sizesHorizontal[i] - left;
+            right = _sizesHorizontal[i] - part.Length - left;
             result += $"{new string(' ', left)}{part}{new string(' ', right)}";
         }
         
@@ -97,15 +101,15 @@ public class TableBuilder<T1, T2, T3>
         for (int i = 1; i < _height; i++)
         {
             var part = _rowArguments[i];
-            int left = (_sizesHorizontal[0] - part.Length - 2) / 2;
-            int right = _sizesHorizontal[0] - left;
+            int left = (_sizesHorizontal[0] - part.Length) / 2;
+            int right = _sizesHorizontal[0] - part.Length - left;
             result += $"{new string(' ', left)}{part}{new string(' ', right)}";
             
             for (int j = 1; j < _width; j++)
             {
                 part = _content[i - 1, j - 1];
-                left = (_sizesHorizontal[j] - part.Length - 2) / 2;
-                right = _sizesHorizontal[j] - left;
+                left = (_sizesHorizontal[j] - part.Length) / 2;
+                right = _sizesHorizontal[j] - part.Length - left;
                 result += $"{new string(' ', left)}{part}{new string(' ', right)}";
             }
 

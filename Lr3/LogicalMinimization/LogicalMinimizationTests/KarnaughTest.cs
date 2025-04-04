@@ -86,4 +86,19 @@ public sealed class KarnaughTest
         var resp = result.ToString();
         Assert.AreEqual(resp, "b|c|(!a)");
     }
+
+    [TestMethod]
+    public void MinimizeTest5()
+    {
+        IEvaluatable formula =
+            FormulaParser.Parse("(!a&b&!c&!d)|(!a&b&!c&d)|(a&!b&!c&d)|(a&!b&c&!d)|(a&!b&c&d)|(a&b&!c&d)|(a&b&c&!d)|(a&b&c&d)");
+        KarnaughMap karnaughMap = new KarnaughMap(formula);
+        var result = karnaughMap.MinimizeToDisjunctional();
+        var resp = result.ToString();
+        Assert.AreEqual(resp, "(a&c)|(a&d)|(!a&b&!c)");
+        
+        result = karnaughMap.MinimizeToConjunctional();
+        resp = result.ToString();
+        Assert.AreEqual(resp, "(a|!c)&(!a|c|d)&(a|b)");
+    }
 }
