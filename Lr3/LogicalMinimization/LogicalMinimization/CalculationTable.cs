@@ -74,28 +74,6 @@ public class CalculationTable
         return flipped;
     }
 
-    private bool IsRowSubset(int first, int second)
-    {
-        for (int i = 0; i < Width; i++)
-        {
-            if (Crosses[first, i] == Crosses[second, i] || Crosses[second, i]) continue;
-            return false;
-        }
-
-        return true;
-    }
-
-    private bool IsRowOdd(int rowNumber)
-    {
-        for (int i = 0; i < rowNumber; i++)
-            if (IsRowSubset(rowNumber, i)) return true;
-        
-        for (int i = rowNumber + 1; i < Height; i++)
-            if (IsRowSubset(rowNumber, i)) return true;
-        
-        return false;
-    }
-
     private bool IsEnough(List<int> rowNumbers)
     {
         bool[] isEnough = new bool[Width];
