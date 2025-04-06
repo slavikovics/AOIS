@@ -14,8 +14,8 @@ class Program
 
             try
             {
-                CalcMethod(formString);
-                CalcTableMethod(formString);
+                //CalcMethod(formString);
+                //CalcTableMethod(formString);
                 KarnaughMethod(formString);
             }
             catch (Exception e)
