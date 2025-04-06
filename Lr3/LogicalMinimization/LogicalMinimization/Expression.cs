@@ -51,8 +51,8 @@ public class Expression
         string sign = "&";
         if (formType == FormType.Conjunctive) sign = "|";
 
-        for (int i = 0; i < Variables.Count - 1; i++) result += Variables[i] + sign;
-        result += Variables[^1];
+        for (int i = 0; i < Variables.Count - 1; i++) if (Variables[i].ToString() != "") result += Variables[i] + sign;
+        if (Variables.Count != 0) result += Variables[^1];
         
         if (result.Length > 1) return $"({result})";
         return result;

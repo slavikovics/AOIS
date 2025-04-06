@@ -12,7 +12,7 @@ public class KarnaughMap
 
     public List<string> RowArguments { get; private set; }
 
-    public bool[,] Table { get; private set; }
+    public MapValue[,] Table;
 
     public Dictionary<string, bool>[,] MatchTable { get; private set; }
 
@@ -20,6 +20,7 @@ public class KarnaughMap
 
     public KarnaughMap(IEvaluatable formula)
     {
+        Formula = formula;
         SetUp(formula.ToString());
     }
 
@@ -47,31 +48,19 @@ public class KarnaughMap
 
     public List<KarnaughSelection> FindAllSelections()
     {
-        bool[,] table = (bool[,]) Table.Clone();
         List<KarnaughSelection> result = [];
 
         for (int i = 0; i < ColumnArguments.Count; i++)
         {
             for (int j = 0; j < RowArguments.Count; j++)
             {
-                if (table[j, i])
+                if (Table[j, i].Value && !Table[j, i].WasUsed)
                 {
                     KarnaughSelection selection = FindSelection(Table, RowArguments.Count, ColumnArguments.Count, i, j);
-                    selection.IsValid(ref table);
+                    selection.IsValid(ref Table, true);
                     result.Add(selection);
                 }
             }
-        }
-
-        var combos = GetAllCombinations(result);
-        combos = combos.OrderBy(combo => combo.Count).ToList();
-
-        foreach (var combo in combos)
-        {
-            bool[,] check = (bool[,]) Table.Clone();
-            foreach (var selection in combo) selection.IsValid(ref check, true);
-            
-            if (IsTableFullFalse(check)) return combo;
         }
 
         return result;
@@ -79,9 +68,8 @@ public class KarnaughMap
 
     public List<MapRectangle> FindMapRectanglesForSelection(KarnaughSelection selection)
     {
-        bool[,] table = (bool[,]) Table.Clone();
         List<MapRectangle> mapRectangles = new List<MapRectangle>();
-        selection.IsValid(ref table, false, mapRectangles);
+        selection.IsValid(ref Table, false, mapRectangles);
 
         foreach (var rectangle in mapRectangles) rectangle.Match = MatchTable[rectangle.Y, rectangle.X];
         return mapRectangles;
@@ -148,8 +136,8 @@ public class KarnaughMap
     {
         for (int i = 0; i < ColumnArguments.Count; i++)
         for (int j = 0; j < RowArguments.Count; j++)
-            if (Table[j, i]) Table[j, i] = false;
-            else Table[j, i] = true;
+            if (Table[j, i].Value) Table[j, i].Value = false;
+            else Table[j, i].Value = true;
     }
 
     public bool IsTableFullFalse(bool[,] table)
@@ -190,7 +178,7 @@ public class KarnaughMap
         return combinationsWithFirst.Concat(combinationsWithoutFirst);
     }
 
-    public static KarnaughSelection FindSelection(bool[,] table, int height, int width, int x, int y)
+    public static KarnaughSelection FindSelection(MapValue[,] table, int height, int width, int x, int y)
     {
         var initial = new KarnaughSelection(x, y, height, width);
         List<KarnaughSelection> currentGen = [initial];
@@ -216,8 +204,19 @@ public class KarnaughMap
             if (nextGen.Count == 0)
             {
                 var biggest = currentGen[0];
-                foreach (var selection in currentGen) 
-                    if (selection.Square > biggest.Square) biggest = selection;
+                int biggestCount = currentGen[0].CountProfit(ref table);
+
+                foreach (var selection in currentGen)
+                {
+                    int selectionCount = selection.CountProfit(ref table);
+                    
+                    if (selectionCount > biggestCount)
+                    {
+                        biggest = selection;
+                        biggestCount = selectionCount;
+                    }
+                }
+                    
                 return biggest;
             }
 
@@ -232,7 +231,7 @@ public class KarnaughMap
     {
         ColumnArguments = GenerateGrayCode(ColumnVariables.Count);
         RowArguments = GenerateGrayCode(RowVariables.Count);
-        Table = new bool[RowArguments.Count, ColumnArguments.Count];
+        Table = new MapValue[RowArguments.Count, ColumnArguments.Count];
         MatchTable = new Dictionary<string, bool>[RowArguments.Count, ColumnArguments.Count];
 
         for (int i = 0; i < ColumnArguments.Count; i++)
@@ -240,7 +239,7 @@ public class KarnaughMap
             for (int j = 0; j < RowArguments.Count; j++)
             {
                 var match = MatchVariablesWithArguments(ColumnArguments[i], RowArguments[j]);
-                Table[j, i] = Formula.Evaluate(match);
+                Table[j, i] = new MapValue(Formula.Evaluate(match));
                 MatchTable[j, i] = match;
             }
         }
@@ -294,7 +293,7 @@ public class KarnaughMap
         {
             for (int j = 0; j < ColumnArguments.Count; j++)
             {
-                if (Table[i, j]) resp += "1";
+                if (Table[i, j].Value) resp += "1";
                 else resp += "0";
             }
             resp += "\n";

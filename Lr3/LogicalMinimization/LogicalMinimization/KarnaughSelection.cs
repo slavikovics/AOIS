@@ -74,7 +74,7 @@ public class KarnaughSelection
         return down;
     }
 
-    public bool IsValid(ref bool[,] table, bool clearZone = false, List<MapRectangle>? rectangles = null)
+    public bool IsValid(ref MapValue[,] table, bool clearZone = false, List<MapRectangle>? rectangles = null)
     {
         if (Height > TableHeight || Width > TableWidth) return false;
 
@@ -109,16 +109,29 @@ public class KarnaughSelection
         return isValid;
     }
 
-    public static bool IsZoneValid(ref bool[,] table, int zoneTopX, int zoneTopY, int zoneBottomX, int zoneBottomY, bool clearZone, List<MapRectangle>? rectangles)
+    public static bool IsZoneValid(ref MapValue[,] table, int zoneTopX, int zoneTopY, int zoneBottomX, int zoneBottomY, bool clearZone, List<MapRectangle>? rectangles)
     {
         for (int i = zoneTopX; i <= zoneBottomX; i++)
         for (int j = zoneTopY; j <= zoneBottomY; j++)
         {
-            if (!table[j, i] && !clearZone) return false;
-            table[j, i] = !clearZone;
-            if (rectangles is not null) rectangles.Add(new MapRectangle(i, j));
+            if (!table[j, i].Value && !clearZone) return false;
+            if (clearZone) table[j, i].WasUsed = true;
+            if (rectangles is not null) rectangles.Add(new MapRectangle(i, j, table[j, i].WasUsed));
         }
         
         return true;
+    }
+
+    public int CountProfit(ref MapValue[,] table)
+    {
+        int count = 0;
+        List<MapRectangle> rectangles = [];
+        IsValid(ref table, false, rectangles);
+        foreach (var rectangle in rectangles)
+        {
+            if (!rectangle.WasUsed) count++;
+        }
+
+        return count;
     }
 }

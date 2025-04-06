@@ -8,11 +8,11 @@ public sealed class KarnaughSelectionTests
     [TestMethod]
     public void IsSelectionValidTest()
     {
-        bool[,] table = new bool[3, 3];
-        table[0, 0] = true;
-        table[2, 0] = true;
-        table[2, 2] = true;
-        table[0, 2] = true;
+        MapValue[,] table = new MapValue[3, 3];
+        table[0, 0] = new MapValue(true);
+        table[2, 0] = new MapValue(true);
+        table[2, 2] = new MapValue(true);
+        table[0, 2] = new MapValue(true);
 
         KarnaughSelection karnaughSelection1 = new KarnaughSelection(2, 2, 3, 3, 2, 2);
         KarnaughSelection karnaughSelection2 = new KarnaughSelection(2, 0, 3, 3, 1, 2);
@@ -21,26 +21,31 @@ public sealed class KarnaughSelectionTests
         Assert.AreEqual(karnaughSelection2.IsValid(ref table), true);
         Assert.AreEqual(karnaughSelection3.IsValid(ref table), true);
         
-        table[0, 0] = false;
+        table[0, 0].Value = false;
         Assert.AreEqual(karnaughSelection1.IsValid(ref table), false);
         Assert.AreEqual(karnaughSelection2.IsValid(ref table), false);
         Assert.AreEqual(karnaughSelection3.IsValid(ref table), true);
 
-        table[0, 2] = false;
+        table[0, 2].Value = false;
         Assert.AreEqual(karnaughSelection3.IsValid(ref table), true);
         
-        table[2, 0] = false;
+        table[2, 0].Value = false;
         Assert.AreEqual(karnaughSelection3.IsValid(ref table), false);
     }
 
     [TestMethod]
     public void RightTest()
     {
-        bool[,] table = new bool[3, 3];
-        table[0, 0] = true;
-        table[2, 0] = true;
-        table[2, 2] = true;
-        table[0, 2] = true;
+        MapValue[,] table = new MapValue[3, 3];
+        table[0, 0] = new MapValue(true);
+        table[0, 1] = new MapValue(false);
+        table[0, 2] = new MapValue(true);
+        table[1, 0] = new MapValue(false);
+        table[1, 1] = new MapValue(false);
+        table[1, 2] = new MapValue(false);
+        table[2, 0] = new MapValue(true);
+        table[2, 1] = new MapValue(false);
+        table[2, 2] = new MapValue(true);
 
         KarnaughSelection karnaughSelection = new KarnaughSelection(0, 0, 3, 3);
         

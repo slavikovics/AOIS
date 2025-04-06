@@ -14,8 +14,8 @@ class Program
 
             try
             {
-                //CalcMethod(formString);
-                //CalcTableMethod(formString);
+                CalcMethod(formString);
+                CalcTableMethod(formString);
                 KarnaughMethod(formString);
             }
             catch (Exception e)
@@ -79,7 +79,7 @@ class Program
         List<string> columns = [columnVariables];
         columns.AddRange(map.ColumnArguments);
         
-        var table = new TableBuilder<string, string, bool>(rows, columns, map.Table);
+        var table = new TableBuilder<string, string, MapValue>(rows, columns, map.Table);
         Console.WriteLine(table.Build());
         
         var disjunctional = map.MinimizeToDisjunctional();

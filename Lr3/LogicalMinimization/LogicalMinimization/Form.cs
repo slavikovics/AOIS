@@ -115,7 +115,7 @@ public class Form
         string sign = "|";
         if (Type == FormType.Conjunctive) sign = "&";
         
-        for (int i = 0; i < Expressions.Count - 1; i++) result += Expressions[i].ToString(Type) + sign;
+        for (int i = 0; i < Expressions.Count - 1; i++) if (Expressions[i].Variables.Count != 0) result += Expressions[i].ToString(Type) + sign;
         result += Expressions[^1].ToString(Type);
 
         return result;
