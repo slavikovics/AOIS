@@ -7,7 +7,7 @@ public class FormParser
 {
     public static Form ParseForm(string input)
     {
-        string pattern = @"\([a-zA-Z&|!]+\)";
+        string pattern = @"\([a-zA-Z01&|!]+\)";
         MatchCollection matches = Regex.Matches(input, pattern);
 
         FormType formType;
@@ -22,7 +22,7 @@ public class FormParser
 
     public static Expression ParseExpression(string input)
     {
-        string pattern = @"!?[a-zA-Z]";
+        string pattern = @"!?[a-zA-Z01]";
         MatchCollection matches = Regex.Matches(input, pattern);
 
         List<Variable> variables = [];

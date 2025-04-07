@@ -1,4 +1,5 @@
 ﻿using LogicalMinimization;
+using LogicalParser;
 
 namespace LogicalMinimizationConsole;
 
@@ -12,15 +13,15 @@ class Program
             string? formString = Console.ReadLine();
             if (formString is null) return;
 
-            try
+            //try
             {
-                CalcMethod(formString);
-                CalcTableMethod(formString);
+                //CalcMethod(formString);
+                //CalcTableMethod(formString);
                 KarnaughMethod(formString);
             }
-            catch (Exception e)
+            //catch (Exception e)
             {
-                Console.WriteLine("Something went wrong.");
+                //Console.WriteLine("Something went wrong.");
             }
         
             Console.WriteLine();
@@ -67,6 +68,10 @@ class Program
     {
         Console.WriteLine();
         Console.WriteLine("Karnaugh method:");
+
+        MapSplitter mapSplitter = new MapSplitter();
+        mapSplitter.SplitFormula(FormulaParser.Parse(formString));
+        
         KarnaughMap map = new KarnaughMap(formString);
 
         string rowVariables = "";
