@@ -70,7 +70,7 @@ class Program
         Console.WriteLine("Karnaugh method:");
 
         MapSplitter mapSplitter = new MapSplitter();
-        mapSplitter.SplitFormula(FormulaParser.Parse(formString));
+        var form = mapSplitter.SplitFormula(FormulaParser.Parse(formString));
         
         KarnaughMap map = new KarnaughMap(formString);
 
@@ -88,7 +88,7 @@ class Program
         Console.WriteLine(table.Build());
         
         var disjunctional = map.MinimizeToDisjunctional();
-        Console.WriteLine($"Disjunctional after minimizing: {disjunctional.ToString()}");
+        Console.WriteLine($"Disjunctional after minimizing: {form.ToString()}");
         
         var conjunctional = map.MinimizeToConjunctional();
         Console.WriteLine($"Conjunctional after minimizing: {conjunctional.ToString()}");

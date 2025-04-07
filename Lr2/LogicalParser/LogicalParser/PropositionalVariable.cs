@@ -18,6 +18,6 @@ public class PropositionalVariable: IEvaluatable
 
     public override string ToString()
     {
-        return Name + " ";
+        return Name;
     }
 }

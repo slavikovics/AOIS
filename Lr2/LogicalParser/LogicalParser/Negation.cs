@@ -16,6 +16,6 @@ public class Negation: IEvaluatable
     
     public override string ToString()
     {
-        return Formula.ToString() + "!" + Formula.ToString();
+        return "!" + Formula.ToString();
     }
 }
