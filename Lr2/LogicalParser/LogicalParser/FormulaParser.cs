@@ -8,7 +8,13 @@ public static class FormulaParser
         
         if (formulas is null) formulas = [];
         if (!IsPropositionalVariable(input)) formulas.Insert(0, input);
-        if (!HasSign(input)) return new PropositionalVariable(input);
+        if (!HasSign(input))
+        {
+            if (input == "1") return new Truth();
+            if (input == "0") return new False();
+            
+            return new PropositionalVariable(input);
+        }
         
         string left = FindLeftSubFormula(input);
         string right = FindRightSubFormula(input);
