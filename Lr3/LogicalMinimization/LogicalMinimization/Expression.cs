@@ -4,6 +4,8 @@ public class Expression
 {
     public List<Variable> Variables { get; }
 
+    public bool IsFull { get; set; } = false;
+
     private int Length => Variables.Count;
 
     public Expression(List<Variable> variables)

@@ -27,7 +27,7 @@ class Program
             {
                 CalcMethod(disjunction, conjunction);
                 CalcTableMethod(disjunction, conjunction);
-                KarnaughMethod(disjunction);
+                WriteKarnaugh(disjunction, conjunction);
             }
             catch (Exception e)
             {
@@ -103,17 +103,23 @@ class Program
         Console.WriteLine("\nCONJUNCTION:");
         OneCalcTable(conjunction);
     }
-    
-    private static void KarnaughMethod(string formString)
+
+    private static void WriteKarnaugh(string disjunction, string conjunction)
     {
         Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.DarkBlue;
         Console.WriteLine("Karnaugh method:");
         Console.ForegroundColor = ConsoleColor.White;
-
+        Console.WriteLine("\nDISJUNCTION:");
+        KarnaughMethod(disjunction, FormType.Disjunctive);
+        Console.WriteLine("\nCONJUNCTION:");
+        KarnaughMethod(conjunction, FormType.Conjunctive);
+    }
+    
+    private static void KarnaughMethod(string formString, FormType type)
+    {
         MapSplitter mapSplitter = new MapSplitter();
-        var form = mapSplitter.SplitFormula(FormulaParser.Parse(formString));
-        
+        var disjunctive = mapSplitter.SplitFormula(FormulaParser.Parse(formString), type);
         KarnaughMap map = new KarnaughMap(formString);
 
         string rowVariables = "";
@@ -129,14 +135,8 @@ class Program
         var table = new TableBuilder<string, string, MapValue>(rows, columns, map.Table);
         Console.WriteLine(table.Build());
         
-        var disjunctional = map.MinimizeToDisjunctional();
         Console.ForegroundColor = ConsoleColor.DarkGreen;
-        Console.WriteLine($"Disjunctional after minimizing: {form.ToString()}");
-        Console.ForegroundColor = ConsoleColor.White;
-        
-        var conjunctional = map.MinimizeToConjunctional();
-        Console.ForegroundColor = ConsoleColor.DarkGreen;
-        Console.WriteLine($"Conjunctional after minimizing: {conjunctional.ToString()}");
+        Console.WriteLine($"After minimizing: {disjunctive.ToString()}");
         Console.ForegroundColor = ConsoleColor.White;
     }
 }
