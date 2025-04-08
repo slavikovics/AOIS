@@ -41,11 +41,26 @@ public class MapSplitter
         {
             var left = formula.Replace(current, "1");
             var right = formula.Replace(current, "0");
-            var form = CalculateKarnaugh(left);
-            form.Expressions.Add(new Expression([new Variable(current, true)]));
             
-            forms.Add(form);
-            forms.Add(CalculateKarnaugh(right));
+            var leftResult = CalculateKarnaugh(left);
+            var rightResult = CalculateKarnaugh(right);
+            bool shouldAddLeft = true;
+            bool shouldAddRight = true;
+
+            if (rightResult.Expressions.Count == 1 && rightResult.Expressions[0].Variables.Count == 0)
+                shouldAddLeft = false;
+            if (leftResult.Expressions.Count == 1 && leftResult.Expressions[0].Variables.Count == 0)
+                shouldAddRight = false;
+
+            if (shouldAddLeft)
+            {
+                leftResult.Expressions.ForEach(x => x.Variables.Add(new Variable(current, true)));
+            }
+            forms.Add(leftResult);
+            
+            if (shouldAddRight) rightResult.Expressions.ForEach(x => x.Variables.Add(new Variable(current, false)));
+            forms.Add(rightResult);
+            
             return;
         }
 
