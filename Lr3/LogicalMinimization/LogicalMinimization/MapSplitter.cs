@@ -23,6 +23,7 @@ public class MapSplitter
             }
         }
 
+        DeleteRepeats(forms[0].Expressions);
         return forms[0];
     }
     
@@ -62,6 +63,32 @@ public class MapSplitter
         }
 
         return true;
+    }
+
+    private void DeleteRepeats(List<Expression> expressions)
+    {
+        for (int i = 0; i < expressions.Count; i++)
+        {
+            for (int j = i + 1; j < expressions.Count; j++)
+            {
+                bool hasAllVariables = true; 
+                    
+                foreach (var variable in expressions[i].Variables)
+                {
+                    if (!expressions[j].Variables.Contains(variable, new VariableEqualityComparer()))
+                    {
+                        hasAllVariables = false;
+                        break;
+                    }
+                }
+
+                if (hasAllVariables)
+                {
+                    expressions.RemoveAt(j);
+                    j--;
+                }
+            }
+        }
     }
 
     public void Calculate(List<string> variables, string formula, List<Form> forms, FormType type)
