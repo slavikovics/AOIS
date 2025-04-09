@@ -54,11 +54,11 @@ public sealed class KarnaughTest
         KarnaughMap karnaughMap = new KarnaughMap(formula);
         var result = karnaughMap.MinimizeToDisjunctional();
         var resp = result.ToString();
-        Assert.AreEqual(resp, "(!b&c&!d)|(b&d)|(!c&d)|(a&b)");
+        Assert.AreEqual(resp, "(a&b)|(!c&d)|(b&d)|(!b&c&!d)");
         
         result = karnaughMap.MinimizeToConjunctional();
         resp = result.ToString();
-        Assert.AreEqual(resp, "(b|!c|!d)&(a|!b|d)&(b|c|d)");
+        Assert.AreEqual(resp, "(b|c|d)&(a|!b|d)&(b|!c|!d)");
     }
     
     [TestMethod]
@@ -68,7 +68,7 @@ public sealed class KarnaughTest
         KarnaughMap karnaughMap = new KarnaughMap(formula);
         var result = karnaughMap.MinimizeToDisjunctional();
         var resp = result.ToString();
-        Assert.AreEqual(resp, "b|c|a");
+        Assert.AreEqual(resp, "a|c|b");
         
         result = karnaughMap.MinimizeToConjunctional();
         resp = result.ToString();
@@ -82,7 +82,7 @@ public sealed class KarnaughTest
         KarnaughMap karnaughMap = new KarnaughMap(formula);
         var result = karnaughMap.MinimizeToDisjunctional();
         var resp = result.ToString();
-        Assert.AreEqual(resp, "b|c|(!a)");
+        Assert.AreEqual(resp, "(!a)|c|b");
         
         result = karnaughMap.MinimizeToConjunctional();
         resp = result.ToString();
@@ -96,7 +96,7 @@ public sealed class KarnaughTest
         KarnaughMap karnaughMap = new KarnaughMap(formula);
         var result = karnaughMap.MinimizeToDisjunctional();
         var resp = result.ToString();
-        Assert.AreEqual(resp, "b|c|(!a)");
+        Assert.AreEqual(resp, "(!a)|c|b");
         
         result = karnaughMap.MinimizeToConjunctional();
         resp = result.ToString();
@@ -111,10 +111,60 @@ public sealed class KarnaughTest
         KarnaughMap karnaughMap = new KarnaughMap(formula);
         var result = karnaughMap.MinimizeToDisjunctional();
         var resp = result.ToString();
-        Assert.AreEqual(resp, "(a&c)|(a&d)|(!a&b&!c)");
+        Assert.AreEqual(resp, "(!a&b&!c)|(a&d)|(a&c)");
         
         result = karnaughMap.MinimizeToConjunctional();
         resp = result.ToString();
-        Assert.AreEqual(resp, "(a|!c)&(!a|c|d)&(a|b)");
+        Assert.AreEqual(resp, "(a|b)&(!a|c|d)&(a|!c)");
+    }
+
+    [TestMethod]
+    public void MinimizeTest6()
+    {
+        IEvaluatable formula = FormulaParser.Parse("((((a|b)&(!c&d))->e)~a)");
+        var disjunctive = KarnaughSolver.SolveFormula(formula, FormType.Disjunctive);
+        var conjunctive = KarnaughSolver.SolveFormula(formula, FormType.Conjunctive);
+        Assert.AreEqual(disjunctive.ToString(), "(a&e)|(a&!d)|(!a&b&!c&d&!e)|(a&c)");
+        Assert.AreEqual(conjunctive.ToString(), "(a|!e)&(a|b)&(a|d)&(!a|c|!d|e)&(a|!c)");
+    }
+    
+    [TestMethod]
+    public void MinimizeTest7()
+    {
+        IEvaluatable formula = FormulaParser.Parse("a|b|c|d|e");
+        var disjunctive = KarnaughSolver.SolveFormula(formula, FormType.Disjunctive);
+        var conjunctive = KarnaughSolver.SolveFormula(formula, FormType.Conjunctive);
+        Assert.AreEqual(disjunctive.ToString(), "e|b|a|d|c");
+        Assert.AreEqual(conjunctive.ToString(), "(a|b|c|d|e)");
+    }
+
+    [TestMethod]
+    public void MinimizeTest8()
+    {
+        IEvaluatable formula = FormulaParser.Parse("((((a->b)&(!c&d))~e)->a)");
+        var disjunctive = KarnaughSolver.SolveFormula(formula, FormType.Disjunctive);
+        var conjunctive = KarnaughSolver.SolveFormula(formula, FormType.Conjunctive);
+        Assert.AreEqual(disjunctive.ToString(), "(!d&e)|a|(c&e)|(!c&d&!e)");
+        Assert.AreEqual(conjunctive.ToString(), "(a|c|!d|!e)&(a|d|e)&(a|!c|e)");
+    }
+    
+    [TestMethod]
+    public void MinimizeTest9()
+    {
+        IEvaluatable formula = FormulaParser.Parse("a&b&c&d&e");
+        var disjunctive = KarnaughSolver.SolveFormula(formula, FormType.Disjunctive);
+        var conjunctive = KarnaughSolver.SolveFormula(formula, FormType.Conjunctive);
+        Assert.AreEqual(disjunctive.ToString(), "(a&b&c&d&e)");
+        Assert.AreEqual(conjunctive.ToString(), "b&a&c&d&e");
+    }
+
+    [TestMethod]
+    public void MinimizeTest10()
+    {
+        IEvaluatable formula = FormulaParser.Parse("!((a->b)&(a->c)&(b|d))");
+        var disjunctive = KarnaughSolver.SolveFormula(formula, FormType.Disjunctive);
+        var conjunctive = KarnaughSolver.SolveFormula(formula, FormType.Conjunctive);
+        Assert.AreEqual(disjunctive.ToString(), "(!b&!d)|(a&!c)|(a&!b)");
+        Assert.AreEqual(conjunctive.ToString(), "(a|!b)&(a|!d)&(!b|!c)");
     }
 }
