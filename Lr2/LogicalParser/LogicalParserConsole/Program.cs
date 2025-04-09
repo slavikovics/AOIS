@@ -13,7 +13,7 @@ class Program
             string? formula = Console.ReadLine();
             if (formula is null) return;
 
-            Table table = new Table(formula.ToLower());
+            Table table = new Table(formula);
             Console.WriteLine("Table:");
             Console.WriteLine(table.Content);
             Console.WriteLine($"Disjunctive form: {table.DisjunctiveForm}");
