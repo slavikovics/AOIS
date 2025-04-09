@@ -8,6 +8,7 @@ public static class OptionsBuilder
     {
         List<string> options = [];
         int count = arguments.Count;
+        if (count == 0) return options;
         
         string firstOption = new string('0', count -1) + "0";
         string diff = new string('0', count -1) + "1";

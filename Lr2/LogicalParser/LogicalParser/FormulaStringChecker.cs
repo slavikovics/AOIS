@@ -7,6 +7,8 @@ public static class FormulaStringChecker
     public static bool Check(string formula)
     {
         IEvaluatable parsedFormula = FormulaParser.Parse(formula);
+
+        if (formula.Contains("(0)") || formula.Contains("(1)")) return false;
         
         if (parsedFormula.ToString() == formula) return true;
         return false;
