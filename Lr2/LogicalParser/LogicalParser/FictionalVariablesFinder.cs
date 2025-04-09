@@ -26,7 +26,7 @@ public class FictionalVariablesFinder
         return resultOne == resultZero;
     }
 
-    public void CheckAllVariables()
+    public void FindFictionalVariables()
     {
         var allVariables = FormulaParser.FindAllPropositionalVariables(FormulaString);
 
