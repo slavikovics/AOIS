@@ -135,47 +135,13 @@ public class KarnaughMap
     private void InvertTable()
     {
         for (int i = 0; i < ColumnArguments.Count; i++)
-        for (int j = 0; j < RowArguments.Count; j++)
-            if (Table[j, i].Value) Table[j, i].Value = false;
-            else Table[j, i].Value = true;
-    }
-
-    public bool IsTableFullFalse(bool[,] table)
-    {
-        for (int i = 0; i < ColumnArguments.Count; i++)
-            for (int j = 0; j < RowArguments.Count; j++)
-                if (table[j, i]) return false;
-        
-        return true;
-    }
-    
-    public static List<List<KarnaughSelection>> GetAllCombinations(List<KarnaughSelection> inputList)
-    {
-        var result = new List<List<KarnaughSelection>>();
-        for (int size = 1; size <= inputList.Count; size++)
         {
-            result.AddRange(GetCombinations(inputList, size));
+            for (int j = 0; j < RowArguments.Count; j++)
+            {
+                if (Table[j, i].Value) Table[j, i].Value = false;
+                else Table[j, i].Value = true;
+            }
         }
-
-        return result;
-    }
-
-    public static IEnumerable<List<KarnaughSelection>> GetCombinations(List<KarnaughSelection> list, int length)
-    {
-        if (length == 0)
-            return new List<List<KarnaughSelection>> { new List<KarnaughSelection>() };
-
-        if (!list.Any())
-            return new List<List<KarnaughSelection>>();
-
-        var firstElement = list[0];
-        var rest = list.Skip(1).ToList();
-
-        var combinationsWithoutFirst = GetCombinations(rest, length);
-        var combinationsWithFirst = GetCombinations(rest, length - 1)
-            .Select(combo => new List<KarnaughSelection>(combo) { firstElement });
-
-        return combinationsWithFirst.Concat(combinationsWithoutFirst);
     }
 
     public static KarnaughSelection FindSelection(MapValue[,] table, int height, int width, int x, int y)

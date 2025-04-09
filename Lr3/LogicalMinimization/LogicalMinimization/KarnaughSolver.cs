@@ -2,9 +2,9 @@
 
 namespace LogicalMinimization;
 
-public class MapSplitter
+public static class KarnaughSolver
 {
-    public Form SplitFormula(IEvaluatable formula, FormType type)
+    public static Form SolveFormula(IEvaluatable formula, FormType type)
     {
         var variables = FormulaParser.FindAllPropositionalVariables(formula.ToString());
         if (variables.Count <= 4) return CalculateKarnaugh(formula.ToString(), type);
@@ -27,14 +27,14 @@ public class MapSplitter
         return forms[0];
     }
     
-    public Form CalculateKarnaugh(string formula, FormType type)
+    public static Form CalculateKarnaugh(string formula, FormType type)
     {
         KarnaughMap karnaughMap = new KarnaughMap(formula);
         if (type == FormType.Disjunctive) return karnaughMap.MinimizeToDisjunctional();
         return karnaughMap.MinimizeToConjunctional();
     }
 
-    public bool DependsOnOtherVariables(Expression check, List<Expression> expressions)
+    public static bool DependsOnOtherVariables(Expression check, List<Expression> expressions)
     {
         foreach (var exp in expressions)
         {
@@ -65,7 +65,7 @@ public class MapSplitter
         return true;
     }
 
-    private void DeleteRepeats(List<Expression> expressions)
+    private static void DeleteRepeats(List<Expression> expressions)
     {
         for (int i = 0; i < expressions.Count; i++)
         {
@@ -91,7 +91,7 @@ public class MapSplitter
         }
     }
 
-    public void Calculate(List<string> variables, string formula, List<Form> forms, FormType type)
+    public static void Calculate(List<string> variables, string formula, List<Form> forms, FormType type)
     {
         string current = variables[0];
         variables.RemoveAt(0);

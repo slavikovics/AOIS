@@ -12,8 +12,8 @@ class Program
             Console.WriteLine("Enter logical formula");
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             string? formula = Console.ReadLine();
-            Console.Clear();
             if (formula is null) continue;
+            
             Console.WriteLine($"Formula: {formula}");
             Console.ForegroundColor = ConsoleColor.White;
             
@@ -75,7 +75,7 @@ class Program
         startExpressions.AddRange(form.Expressions);
         
         form.StickEverything();
-        Console.WriteLine($"After sticking: {form.ToString()}");
+        Console.WriteLine($"After sticking: {form}");
 
         CalculationTable calculationTable = new CalculationTable(form, startExpressions);
         Console.ForegroundColor = ConsoleColor.DarkGreen;
@@ -98,8 +98,10 @@ class Program
         Console.ForegroundColor = ConsoleColor.DarkBlue;
         Console.WriteLine("Calculation-table method:");
         Console.ForegroundColor = ConsoleColor.White;
+        
         Console.WriteLine("\nDISJUNCTION:");
         OneCalcTable(disjunction);
+        
         Console.WriteLine("\nCONJUNCTION:");
         OneCalcTable(conjunction);
     }
@@ -110,16 +112,26 @@ class Program
         Console.ForegroundColor = ConsoleColor.DarkBlue;
         Console.WriteLine("Karnaugh method:");
         Console.ForegroundColor = ConsoleColor.White;
+        
         Console.WriteLine("\nDISJUNCTION:");
         KarnaughMethod(disjunction, FormType.Disjunctive);
+        
         Console.WriteLine("\nCONJUNCTION:");
         KarnaughMethod(conjunction, FormType.Conjunctive);
     }
     
     private static void KarnaughMethod(string formString, FormType type)
     {
-        MapSplitter mapSplitter = new MapSplitter();
-        var disjunctive = mapSplitter.SplitFormula(FormulaParser.Parse(formString), type);
+        var form = KarnaughSolver.SolveFormula(FormulaParser.Parse(formString), type);
+        BuildKarnaughTable(formString);
+
+        Console.ForegroundColor = ConsoleColor.DarkGreen;
+        Console.WriteLine($"After minimizing: {form}");
+        Console.ForegroundColor = ConsoleColor.White;
+    }
+
+    private static void BuildKarnaughTable(string formString)
+    {
         KarnaughMap map = new KarnaughMap(formString);
 
         string rowVariables = "";
@@ -134,9 +146,5 @@ class Program
         
         var table = new TableBuilder<string, string, MapValue>(rows, columns, map.Table);
         Console.WriteLine(table.Build());
-        
-        Console.ForegroundColor = ConsoleColor.DarkGreen;
-        Console.WriteLine($"After minimizing: {disjunctive.ToString()}");
-        Console.ForegroundColor = ConsoleColor.White;
     }
 }
