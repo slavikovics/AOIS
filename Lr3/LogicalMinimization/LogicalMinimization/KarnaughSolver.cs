@@ -4,7 +4,7 @@ namespace LogicalMinimization;
 
 public static class KarnaughSolver
 {
-    public static Form SolveFormula(IEvaluatable formula, FormType type)
+    public static Form Solve(IEvaluatable formula, FormType type)
     {
         var variables = FormulaParser.FindAllPropositionalVariables(formula.ToString());
         if (variables.Count <= 4) return CalculateKarnaugh(formula.ToString(), type);

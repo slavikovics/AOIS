@@ -1,4 +1,5 @@
 ﻿using LogicalMinimization;
+using LogicalParser;
 
 namespace LogicalMinimizationTests;
 
@@ -159,5 +160,55 @@ public sealed class FormTests
         
         value = form.ToString();
         Assert.AreEqual(value, "(a|c)");
+    }
+    
+        [TestMethod]
+    public void MinimizeTest6()
+    {
+        IEvaluatable formula = FormulaParser.Parse("((((a|b)&(!c&d))->e)~a)");
+        var disjunctive = CalculationSolver.Solve(formula, FormType.Disjunctive);
+        var conjunctive = CalculationSolver.Solve(formula, FormType.Conjunctive);
+        Assert.AreEqual(disjunctive.ToString(), "(a&!d)|(a&e)|(a&c)|(!a&b&!c&d&!e)");
+        Assert.AreEqual(conjunctive.ToString(), "(a|d)&(a|!e)&(a|!c)&(!a|c|!d|e)");
+    }
+    
+    [TestMethod]
+    public void MinimizeTest7()
+    {
+        IEvaluatable formula = FormulaParser.Parse("a|b|c|d|e");
+        var disjunctive = CalculationSolver.Solve(formula, FormType.Disjunctive);
+        var conjunctive = CalculationSolver.Solve(formula, FormType.Conjunctive);
+        Assert.AreEqual(disjunctive.ToString(), "e|d|c|b|a");
+        Assert.AreEqual(conjunctive.ToString(), "(a|b|c|d|e)");
+    }
+
+    [TestMethod]
+    public void MinimizeTest8()
+    {
+        IEvaluatable formula = FormulaParser.Parse("((((a->b)&(!c&d))~e)->a)");
+        var disjunctive = CalculationSolver.Solve(formula, FormType.Disjunctive);
+        var conjunctive = CalculationSolver.Solve(formula, FormType.Conjunctive);
+        Assert.AreEqual(disjunctive.ToString(), "(!d&e)|(c&e)|(!c&d&!e)");
+        Assert.AreEqual(conjunctive.ToString(), "(a|d|e)&(a|!c|e)&(a|c|!d|!e)");
+    }
+    
+    [TestMethod]
+    public void MinimizeTest9()
+    {
+        IEvaluatable formula = FormulaParser.Parse("a&b&c&d&e");
+        var disjunctive = CalculationSolver.Solve(formula, FormType.Disjunctive);
+        var conjunctive = CalculationSolver.Solve(formula, FormType.Conjunctive);
+        Assert.AreEqual(disjunctive.ToString(), "(a&b&c&d&e)");
+        Assert.AreEqual(conjunctive.ToString(), "a&b&c&d&e");
+    }
+
+    [TestMethod]
+    public void MinimizeTest10()
+    {
+        IEvaluatable formula = FormulaParser.Parse("!((a->b)&(a->c)&(b|d))");
+        var disjunctive = CalculationSolver.Solve(formula, FormType.Disjunctive);
+        var conjunctive = CalculationSolver.Solve(formula, FormType.Conjunctive);
+        Assert.AreEqual(disjunctive.ToString(), "(!b&!d)|(a&!b)|(a&!c)");
+        Assert.AreEqual(conjunctive.ToString(), "(a|!d)&(a|!b)&(!b|!c)");
     }
 }

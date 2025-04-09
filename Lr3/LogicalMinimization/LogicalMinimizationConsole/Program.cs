@@ -9,6 +9,7 @@ class Program
     {
         while (true)
         {
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
             Console.WriteLine("Enter logical formula");
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             string? formula = Console.ReadLine();
@@ -122,7 +123,7 @@ class Program
     
     private static void KarnaughMethod(string formString, FormType type)
     {
-        var form = KarnaughSolver.SolveFormula(FormulaParser.Parse(formString), type);
+        var form = KarnaughSolver.Solve(FormulaParser.Parse(formString), type);
         BuildKarnaughTable(formString);
 
         Console.ForegroundColor = ConsoleColor.DarkGreen;
