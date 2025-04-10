@@ -19,6 +19,6 @@ public class Disjunction: IEvaluatable
     
     public override string ToString()
     {
-        return $"({LeftSide.ToString()}|{RightSide.ToString()})";
+        return $"({LeftSide}|{RightSide})";
     }
 }

@@ -24,6 +24,6 @@ public class Equivalence: IEvaluatable
     
     public override string ToString()
     {
-        return $"({LeftSide.ToString()}~{RightSide.ToString()})";
+        return $"({LeftSide}~{RightSide})";
     }
 }
