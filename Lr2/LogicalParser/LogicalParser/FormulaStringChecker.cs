@@ -6,10 +6,18 @@ public static class FormulaStringChecker
 {
     public static bool Check(string formula)
     {
-        IEvaluatable parsedFormula = FormulaParser.Parse(formula);
+        IEvaluatable parsedFormula;
+        
+        try
+        {
+            parsedFormula = FormulaParser.Parse(formula);
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
 
         if (formula.Contains("(0)") || formula.Contains("(1)")) return false;
-        
         if (parsedFormula.ToString() == formula) return true;
         return false;
     }
