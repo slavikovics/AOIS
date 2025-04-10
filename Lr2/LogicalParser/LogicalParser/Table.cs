@@ -72,6 +72,7 @@ public class Table
     private void BuildBody(List<Dictionary<string, bool>> options, List<string> formulas)
     {
         bool lastEvaluation = false;
+        if (options.Count == 0) options.Add([]);
         
         for (int i = 0; i < options.Count; i++)
         {

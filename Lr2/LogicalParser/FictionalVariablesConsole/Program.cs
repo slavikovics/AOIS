@@ -23,11 +23,12 @@ class Program
             FictionalVariablesFinder fictionalVariablesFinder = new FictionalVariablesFinder(formula);
             fictionalVariablesFinder.FindFictionalVariables();
             
-            Console.WriteLine("Found variables:");
+            Console.WriteLine("Found fictional variables:");
             foreach (var variable in fictionalVariablesFinder.FictionalVariables)
             {
                 Console.WriteLine(variable);
             }
+            if (fictionalVariablesFinder.FictionalVariables.Count == 0) Console.WriteLine("No fictional variables found");
         }
         catch (Exception e)
         {
