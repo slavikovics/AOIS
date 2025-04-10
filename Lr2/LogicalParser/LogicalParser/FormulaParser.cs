@@ -5,6 +5,7 @@ public static class FormulaParser
     public static IEvaluatable Parse(string input, List<string>? formulas = null)
     {
         input = input.Replace(" ", "").ToLower();
+        CheckBracketCount(input);
         
         if (formulas is null) formulas = [];
         if (!IsPropositionalVariable(input)) formulas.Insert(0, input);
@@ -137,5 +138,19 @@ public static class FormulaParser
     {
         if (input.Length > 1) return false;
         return char.IsLetter(Convert.ToChar(input));
+    }
+
+    private static void CheckBracketCount(string formula)
+    {
+        int leftBrackets = 0;
+        int rightBrackets = 0;
+
+        foreach (char c in formula)
+        {
+            if (c == '(') leftBrackets++;
+            else if (c == ')') rightBrackets++;
+        }
+        
+        if (leftBrackets != rightBrackets) throw new FormatException("Invalid brackets count");
     }
 }
