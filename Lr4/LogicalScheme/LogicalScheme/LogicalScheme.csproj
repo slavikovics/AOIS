@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="Binary">
+        <HintPath>..\..\..\Lr1\AOISLaboratoryWork1\Binary\bin\Debug\net9.0\Binary.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicalMinimization">
+        <HintPath>..\..\..\Lr3\LogicalMinimization\LogicalMinimization\bin\Debug\net9.0\LogicalMinimization.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicalParser">
+        <HintPath>..\..\..\Lr2\LogicalParser\LogicalParser\bin\Debug\net9.0\LogicalParser.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>
