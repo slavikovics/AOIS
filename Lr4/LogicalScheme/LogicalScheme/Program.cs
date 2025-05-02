@@ -11,7 +11,11 @@ class Program
         var blocks = PrintSum();
         blocks.AddRange(PrintCarryOut());
         
+        Console.WriteLine("\nAll blocks:");
         PrintAllBlocks(blocks);
+        
+        Console.WriteLine("\nMinimal scheme for BCD to BCD+2 conversion:");
+        BitFunctionMinimizer.BuildMinimizedScheme();
         Console.ReadKey();
     }
 
@@ -47,7 +51,7 @@ class Program
         return PrintUsedBlocks(form, options);
     }
 
-    private static List<Pair<string, string>> PrintUsedBlocks(Form form,  List<Dictionary<string,bool>> options)
+    public static List<Pair<string, string>> PrintUsedBlocks(Form form,  List<Dictionary<string,bool>> options)
     {
         var resultFormula = FormulaParser.Parse(form.ToString());
         var resultTable = new OptimizedTable(resultFormula.ToString());
@@ -79,7 +83,7 @@ class Program
         return blocksWithParameters;
     }
 
-    private static void PrintAllBlocks(List<Pair<string, string>> blocks)
+    public static void PrintAllBlocks(List<Pair<string, string>> blocks)
     {
         for (int i = 0; i < blocks.Count; i++)
         {
@@ -93,7 +97,7 @@ class Program
             
             for (int j = i + 1; j < blocks.Count; j++)
             {
-                if (blocks[j].Value == blocks[i].Value) blocks[j].Key = $"replaced by {blocks[i].Key}[{i + 1}]" + blocks[j].Key;
+                if (blocks[j].Value == blocks[i].Value) blocks[j].Key = $"replaced by {blocks[i].Key}[{i + 1}] " + blocks[j].Key;
             }
         }
     }

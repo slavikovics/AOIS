@@ -20,4 +20,20 @@ public static class CalculationSolver
             
         return form;
     }
+    
+    public static Form Solve(OptimizedTable table, FormType type)
+    {
+        Form form;
+        
+        string disjunction = table.DisjunctiveForm;
+        string conjunction = table.ConjunctiveForm;
+        
+        if (type == FormType.Disjunctive) form = FormParser.ParseForm(disjunction);
+        else form = FormParser.ParseForm(conjunction);
+        
+        form.StickEverything();
+        form.RemoveUnnecessary(); 
+            
+        return form;
+    }
 }

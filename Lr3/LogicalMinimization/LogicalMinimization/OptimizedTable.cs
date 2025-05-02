@@ -1,10 +1,10 @@
 ﻿using LogicalParser;
 
-namespace LogicalScheme;
+namespace LogicalMinimization;
 
 public class OptimizedTable
 {
-    private List<int> ColumnSizes { get; set; }
+        private List<int> ColumnSizes { get; set; }
 
     public List<string> UsedBlocks { get; set; }
 
@@ -125,5 +125,4 @@ public class OptimizedTable
         if (input) return "1";
         return "0";
     }
-
 }
