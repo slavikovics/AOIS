@@ -6,7 +6,7 @@ public class FourthTriggerInput : IEvaluatable
 {
     private ThirdTriggerInput _thirdTriggerInput = new ThirdTriggerInput();
     
-    private bool _isOnTheSecondTick = false;
+    private bool _isOnTheSecondTick = true;
     
     public bool Evaluate(Dictionary<string, bool> variables)
     {

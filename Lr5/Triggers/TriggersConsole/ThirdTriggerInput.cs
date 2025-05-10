@@ -4,7 +4,7 @@ namespace TriggersConsole;
 
 public class ThirdTriggerInput : IEvaluatable
 {
-    private bool _isOnTheSecondTick = false;
+    private bool _isOnTheSecondTick = true;
     
     public bool Evaluate(Dictionary<string, bool> variables)
     {

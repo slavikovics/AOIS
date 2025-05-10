@@ -10,7 +10,7 @@ public class SecondTriggerOutput : IEvaluatable
     
     public bool Evaluate(Dictionary<string, bool> variables)
     {
-        if (_input.Evaluate(variables)) _initial = !_initial;
+        if (!_input.Evaluate(variables)) _initial = !_initial;
         return _initial;
     }
 
