@@ -1,4 +1,6 @@
-﻿namespace HashTable;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace HashTable;
 
 public class HashTable<K, T>
 {
@@ -10,6 +12,8 @@ public class HashTable<K, T>
 
     public HashTable(int capacity)
     {
+        if (capacity <= 0) throw new ArgumentOutOfRangeException(nameof(capacity),  "Capacity must be greater than zero");
+        
         _items = new HashTableItem<K, T>[capacity];
         for (int i = 0; i < capacity; i++)
         {
@@ -35,7 +39,7 @@ public class HashTable<K, T>
             }
             if (!item.Occupied)
             {
-                throw new KeyNotFoundException("Could not find item in hash table");
+                break;
             }
         }
 
@@ -51,6 +55,10 @@ public class HashTable<K, T>
             var tableIndex = (baseIndex + i) % Capacity;
             var item = _items[tableIndex];
             
+            if (item.Occupied && !item.Deleted && item.Key.Equals(key))
+            {
+                throw new Exception("Item with such key already exists");
+            }
             if (!item.Occupied || item.Deleted)
             {
                 item.Key = key;
@@ -122,5 +130,23 @@ public class HashTable<K, T>
     {
         if (key == null) throw new ArgumentNullException(nameof(key));
         return (key.GetHashCode() & 0x7FFFFFFF) % Capacity;
+    }
+    
+    public override string ToString()
+    {
+        string result = "";
+        int i = 1;
+
+        foreach (var item in _items)
+        {
+            result += i + ". " + item + "\n";
+            i++;
+        }
+        
+        result += $"Count: {Count}\n";
+        result += $"Capacity: {Capacity}\n";
+        result += $"OccupationRate: {OccupationRate()}\n";
+
+        return result.Trim('\n');
     }
 }

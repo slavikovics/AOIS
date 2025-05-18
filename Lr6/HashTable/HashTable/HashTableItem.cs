@@ -1,4 +1,5 @@
-﻿using System.Reflection.Metadata;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection.Metadata;
 
 namespace HashTable;
 
@@ -11,14 +12,6 @@ public class HashTableItem<K, T>
     public bool Occupied { get; set; }
 
     public bool Deleted { get; set; }
-    
-    public HashTableItem(K key, T value)
-    {
-        Key = key;
-        Value = value;
-        Occupied = false;
-        Deleted = false;
-    }
 
     public HashTableItem()
     {
@@ -27,9 +20,11 @@ public class HashTableItem<K, T>
         Occupied = false;
         Deleted = false;
     }
-
+    
     public override string ToString()
     {
-        return $"Occupied: {Occupied}, Deleted: {Deleted}";
+        if (!Occupied) return "[Empty]";
+        if (Deleted) return "[Deleted]";
+        return $"{Key} -> {Value}";
     }
 }

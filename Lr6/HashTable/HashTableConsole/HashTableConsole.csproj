@@ -8,4 +8,8 @@
         <RootNamespace>HashTable</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\HashTable\HashTable.csproj" />
+    </ItemGroup>
+
 </Project>
