@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashTableConsole", "HashTab
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashTable", "HashTable\HashTable.csproj", "{1F0007E7-80D3-4D31-9EA9-B7F913087E4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashTableTests", "HashTableTests\HashTableTests.csproj", "{DCAA7C88-EC8A-4D08-89E0-728DE94A51C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{1F0007E7-80D3-4D31-9EA9-B7F913087E4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F0007E7-80D3-4D31-9EA9-B7F913087E4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F0007E7-80D3-4D31-9EA9-B7F913087E4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCAA7C88-EC8A-4D08-89E0-728DE94A51C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCAA7C88-EC8A-4D08-89E0-728DE94A51C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCAA7C88-EC8A-4D08-89E0-728DE94A51C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCAA7C88-EC8A-4D08-89E0-728DE94A51C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

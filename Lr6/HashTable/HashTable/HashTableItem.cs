@@ -4,10 +4,9 @@ namespace HashTable;
 
 public class HashTableItem<K, T>
 {
-    public K Key { get; private set; }
-    public T Value { get; set; }
+    public K? Key { get; set; }
     
-    public bool Collision { get; set; }
+    public T? Value { get; set; }
     
     public bool Occupied { get; set; }
 
@@ -17,8 +16,20 @@ public class HashTableItem<K, T>
     {
         Key = key;
         Value = value;
-        Collision = false;
         Occupied = false;
         Deleted = false;
+    }
+
+    public HashTableItem()
+    {
+        Key = default;
+        Value = default;
+        Occupied = false;
+        Deleted = false;
+    }
+
+    public override string ToString()
+    {
+        return $"Occupied: {Occupied}, Deleted: {Deleted}";
     }
 }
