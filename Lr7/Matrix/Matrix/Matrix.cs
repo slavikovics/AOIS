@@ -4,7 +4,7 @@ public class Matrix
 {
     public int Dimension { get; }
     
-    private bool[,] Values { get; set; }
+    public bool[,] Values { get; set; }
 
     public Matrix(int dimension)
     {

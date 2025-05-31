@@ -69,8 +69,7 @@ public class AddressColumnTests
         bool[] column1Values = { true, false, true };
 
         matrix.SetAddressColumn(1, column1Values);
-
-        // Проверка соседних столбцов
+        
         bool[] column0 = matrix.GetAddressColumn(0);
         bool[] column2 = matrix.GetAddressColumn(2);
 
