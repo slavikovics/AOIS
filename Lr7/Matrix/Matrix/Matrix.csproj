@@ -6,4 +6,10 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Reference Include="Binary">
+        <HintPath>..\..\..\Lr1\AOISLaboratoryWork1\Binary\obj\Debug\net9.0\Binary.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>
